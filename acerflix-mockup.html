@@ -1,0 +1,1999 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AcerFlix — Mockup UX v0.1</title>
+<style>
+  /* ─── RESET & BASE ─── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #f0f0f0;
+    color: #111;
+    min-height: 100vh;
+  }
+
+  /* ─── NAVIGATION SHELL ─── */
+  .shell {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  /* ─── SCREEN SWITCHER (meta UI) ─── */
+  .switcher {
+    background: #111;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+  .switcher span { color: #888; margin-right: 4px; }
+  .sw-btn {
+    background: transparent;
+    border: 1px solid #444;
+    color: #ccc;
+    padding: 4px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 11px;
+    transition: all .15s;
+  }
+  .sw-btn:hover { background: #333; color: #fff; }
+  .sw-btn.active { background: #fff; color: #111; border-color: #fff; font-weight: 600; }
+  .version-tag { margin-left: auto; color: #555; font-size: 10px; }
+
+  /* ─── SCREENS ─── */
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* ─── WIREFRAME COMPONENTS ─── */
+  .wf-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 48px;
+    border-bottom: 2px solid #111;
+    background: #fff;
+  }
+  .wf-logo {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    border: 2px solid #111;
+    padding: 4px 12px;
+  }
+  .wf-nav-links { display: flex; gap: 24px; font-size: 14px; }
+  .wf-nav-links a { text-decoration: none; color: #111; cursor: pointer; }
+  .wf-nav-links a:hover { text-decoration: underline; }
+  .wf-nav-cta {
+    display: flex; gap: 12px;
+  }
+  .btn-primary {
+    background: #111;
+    color: #fff;
+    border: 2px solid #111;
+    padding: 8px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all .15s;
+  }
+  .btn-primary:hover { background: #333; }
+  .btn-outline {
+    background: transparent;
+    color: #111;
+    border: 2px solid #111;
+    padding: 8px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all .15s;
+  }
+  .btn-outline:hover { background: #f5f5f5; }
+  .btn-ghost {
+    background: transparent;
+    color: #555;
+    border: 1px solid #ccc;
+    padding: 6px 14px;
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 2px;
+  }
+
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 48px; }
+
+  /* image placeholders */
+  .img-ph {
+    background: #e0e0e0;
+    border: 1px dashed #aaa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    font-size: 12px;
+    text-align: center;
+  }
+
+  /* annotation */
+  .note {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #fffde7;
+    border: 1px solid #f9a825;
+    border-radius: 3px;
+    padding: 2px 8px;
+    font-size: 11px;
+    color: #795548;
+    margin-top: 4px;
+  }
+  .note::before { content: "📝"; font-size: 10px; }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 8px;
+  }
+
+  /* divider */
+  .divider { border: none; border-top: 1px solid #ddd; margin: 32px 0; }
+
+  /* chips */
+  .chip {
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .chip:hover, .chip.selected { background: #111; color: #fff; border-color: #111; }
+
+  /* badge */
+  .badge {
+    background: #111;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 2px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* ─── SCREEN 1: HOME ─── */
+  .hero {
+    background: #fff;
+    padding: 80px 48px 64px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .hero-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #555; margin-bottom: 16px; }
+  .hero-h1 { font-size: 48px; font-weight: 800; line-height: 1.1; margin-bottom: 20px; }
+  .hero-sub { font-size: 16px; color: #444; line-height: 1.6; margin-bottom: 32px; max-width: 480px; }
+  .hero-ctas { display: flex; gap: 12px; align-items: center; }
+  .hero-img { width: 100%; height: 360px; }
+
+  .benefits-strip {
+    background: #111;
+    color: #fff;
+    padding: 32px 48px;
+  }
+  .benefits-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+  }
+  .benefit-item { border-left: 2px solid #444; padding-left: 16px; }
+  .benefit-icon { font-size: 24px; margin-bottom: 8px; }
+  .benefit-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .benefit-desc { font-size: 12px; color: #aaa; line-height: 1.5; }
+
+  .how-section { background: #fafafa; padding: 64px 48px; }
+  .how-steps {
+    max-width: 1200px;
+    margin: 32px auto 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  .how-step {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    padding: 24px;
+    position: relative;
+  }
+  .step-num {
+    font-size: 48px;
+    font-weight: 800;
+    color: #e0e0e0;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .step-title { font-size: 14px; font-weight: 700; margin-bottom: 8px; }
+  .step-desc { font-size: 12px; color: #666; line-height: 1.5; }
+
+  .featured-products { padding: 64px 48px; background: #fff; }
+  .prod-grid-home {
+    max-width: 1200px;
+    margin: 32px auto 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .prod-card-home {
+    border: 1px solid #e0e0e0;
+    padding: 0;
+    overflow: hidden;
+  }
+  .prod-card-home:hover { border-color: #111; }
+  .prod-img-home { width: 100%; height: 180px; }
+  .prod-info-home { padding: 16px; }
+  .prod-name { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .prod-uso { font-size: 11px; color: #888; margin-bottom: 12px; }
+  .prod-price-from { font-size: 11px; color: #888; }
+  .prod-price-val { font-size: 22px; font-weight: 800; }
+  .prod-price-period { font-size: 12px; color: #666; }
+
+  .concierge-strip {
+    background: #f5f5f5;
+    border-top: 2px solid #111;
+    border-bottom: 2px solid #111;
+    padding: 48px;
+  }
+  .concierge-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+  .chat-preview {
+    border: 2px solid #111;
+    background: #fff;
+    padding: 20px;
+    height: 220px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .chat-msg { display: flex; gap: 8px; align-items: flex-start; }
+  .chat-bubble-ai {
+    background: #111;
+    color: #fff;
+    padding: 8px 12px;
+    font-size: 12px;
+    max-width: 80%;
+    line-height: 1.4;
+  }
+  .chat-bubble-user {
+    background: #f0f0f0;
+    padding: 8px 12px;
+    font-size: 12px;
+    max-width: 80%;
+    margin-left: auto;
+    line-height: 1.4;
+  }
+  .chat-input-row {
+    display: flex;
+    border: 1px solid #ccc;
+    margin-top: auto;
+  }
+  .chat-input-row input {
+    flex: 1;
+    border: none;
+    padding: 8px 12px;
+    font-size: 12px;
+    outline: none;
+    background: #f9f9f9;
+  }
+  .chat-input-row button {
+    background: #111;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 12px;
+  }
+
+  /* ─── SCREEN 2: CATÁLOGO ─── */
+  .catalog-header {
+    background: #fff;
+    padding: 32px 48px 0;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  .catalog-h1 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+  .catalog-sub { font-size: 14px; color: #666; margin-bottom: 24px; }
+  .catalog-cats { display: flex; gap: 8px; flex-wrap: wrap; padding-bottom: 0; }
+  .cat-tab {
+    padding: 10px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    color: #666;
+    transition: all .15s;
+  }
+  .cat-tab:hover { color: #111; }
+  .cat-tab.active { color: #111; border-bottom-color: #111; }
+
+  .catalog-body { background: #fafafa; padding: 32px 48px; }
+  .catalog-filters {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .filter-label { font-size: 12px; color: #888; margin-right: 4px; }
+
+  .catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .prod-card {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .prod-card:hover { border-color: #111; box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .prod-card-img { width: 100%; height: 160px; }
+  .prod-card-body { padding: 14px; }
+  .prod-card-tag { margin-bottom: 6px; }
+  .prod-card-name { font-size: 14px; font-weight: 700; margin-bottom: 4px; line-height: 1.3; }
+  .prod-card-spec { font-size: 11px; color: #888; margin-bottom: 12px; line-height: 1.4; }
+  .prod-card-price { display: flex; align-items: baseline; gap: 4px; }
+  .price-from { font-size: 10px; color: #999; }
+  .price-val { font-size: 20px; font-weight: 800; }
+  .price-period { font-size: 11px; color: #666; }
+
+  /* ─── SCREEN 3: PRODUTO ─── */
+  .product-page { background: #fff; }
+  .product-breadcrumb {
+    padding: 16px 48px;
+    font-size: 12px;
+    color: #888;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .product-main {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 64px;
+    padding: 48px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .product-gallery { display: flex; flex-direction: column; gap: 16px; }
+  .product-main-img { width: 100%; height: 380px; }
+  .product-thumbs { display: flex; gap: 8px; }
+  .product-thumb { width: 72px; height: 56px; border: 1px solid #ccc; cursor: pointer; }
+  .product-thumb:hover { border-color: #111; }
+
+  .product-info { display: flex; flex-direction: column; gap: 20px; }
+  .product-brand { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #888; }
+  .product-title { font-size: 28px; font-weight: 800; line-height: 1.2; }
+  .product-uso-tag { display: inline-block; background: #f0f0f0; padding: 4px 10px; font-size: 12px; color: #555; }
+
+  .price-box {
+    border: 2px solid #111;
+    padding: 24px;
+    background: #fafafa;
+  }
+  .price-box-label { font-size: 11px; color: #888; margin-bottom: 4px; }
+  .price-box-main { font-size: 48px; font-weight: 800; line-height: 1; }
+  .price-box-sub { font-size: 13px; color: #666; margin-top: 8px; }
+  .price-box-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #e0e0e0;
+    font-size: 12px;
+    color: #555;
+  }
+  .info-icon { width: 16px; height: 16px; border: 1px solid #aaa; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 9px; cursor: pointer; color: #888; }
+
+  .product-specs { display: flex; flex-direction: column; gap: 8px; }
+  .spec-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f0f0f0; font-size: 13px; }
+  .spec-label { color: #888; }
+  .spec-val { font-weight: 600; }
+
+  .incluso-box { background: #f5f5f5; padding: 20px; border-left: 3px solid #111; }
+  .incluso-title { font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; }
+  .incluso-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .incluso-list li { font-size: 13px; display: flex; gap: 8px; }
+  .incluso-list li::before { content: "✓"; font-weight: 700; }
+
+  .product-ctas { display: flex; flex-direction: column; gap: 10px; }
+  .btn-lg {
+    padding: 16px 24px;
+    font-size: 15px;
+    font-weight: 700;
+    border: 2px solid #111;
+    cursor: pointer;
+    text-align: center;
+    transition: all .15s;
+  }
+  .btn-lg.primary { background: #111; color: #fff; }
+  .btn-lg.primary:hover { background: #333; }
+  .btn-lg.secondary { background: transparent; color: #111; }
+  .btn-lg.secondary:hover { background: #f5f5f5; }
+
+  .compare-section {
+    padding: 48px;
+    background: #fafafa;
+    border-top: 1px solid #e0e0e0;
+  }
+  .compare-table { width: 100%; border-collapse: collapse; margin-top: 24px; font-size: 13px; }
+  .compare-table th { background: #111; color: #fff; padding: 12px 16px; text-align: left; font-size: 12px; }
+  .compare-table td { padding: 10px 16px; border-bottom: 1px solid #e0e0e0; }
+  .compare-table tr:hover td { background: #f0f0f0; }
+  .compare-table .highlight { font-weight: 700; background: #f9f9f9 !important; }
+  .compare-table .check { color: #111; font-weight: 700; }
+  .compare-table .dash { color: #ccc; }
+
+  /* ─── SCREEN 4–7: CHECKOUT ─── */
+  .checkout-shell {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    min-height: calc(100vh - 82px);
+  }
+  .checkout-main { padding: 48px; background: #fff; }
+  .checkout-sidebar {
+    background: #fafafa;
+    border-left: 1px solid #e0e0e0;
+    padding: 48px 32px;
+  }
+
+  .progress-bar {
+    display: flex;
+    gap: 0;
+    margin-bottom: 40px;
+  }
+  .progress-step {
+    display: flex;
+    align-items: center;
+    flex: 1;
+  }
+  .step-circle {
+    width: 28px;
+    height: 28px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+    background: #fff;
+    color: #999;
+  }
+  .step-circle.active { border-color: #111; background: #111; color: #fff; }
+  .step-circle.done { border-color: #111; background: #fff; color: #111; }
+  .step-line { flex: 1; height: 2px; background: #e0e0e0; }
+  .step-line.done { background: #111; }
+  .step-name { font-size: 10px; color: #888; white-space: nowrap; margin-top: 6px; }
+
+  .checkout-title { font-size: 24px; font-weight: 800; margin-bottom: 8px; }
+  .checkout-sub { font-size: 14px; color: #666; margin-bottom: 32px; }
+
+  .form-group { margin-bottom: 20px; }
+  .form-label { display: block; font-size: 12px; font-weight: 600; color: #555; margin-bottom: 6px; text-transform: uppercase; letter-spacing: .5px; }
+  .form-input {
+    width: 100%;
+    border: 1.5px solid #ccc;
+    padding: 12px 14px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color .15s;
+    border-radius: 2px;
+    background: #fafafa;
+  }
+  .form-input:focus { border-color: #111; background: #fff; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  .credit-box {
+    border: 2px solid #111;
+    padding: 20px;
+    margin: 24px 0;
+    background: #fffde7;
+  }
+  .credit-box-title { font-size: 14px; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .credit-box-text { font-size: 13px; color: #444; line-height: 1.6; }
+  .credit-box-highlight { font-weight: 700; font-size: 18px; margin: 12px 0; }
+
+  .card-visual {
+    background: #222;
+    color: #fff;
+    padding: 20px 24px;
+    height: 140px;
+    border-radius: 4px;
+    position: relative;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .card-chip { width: 32px; height: 24px; background: #bbb; border-radius: 3px; }
+  .card-num { font-size: 16px; letter-spacing: 4px; font-family: monospace; }
+  .card-bottom { display: flex; justify-content: space-between; font-size: 12px; color: #aaa; }
+
+  .contract-box {
+    border: 1px solid #e0e0e0;
+    height: 280px;
+    overflow-y: auto;
+    padding: 20px;
+    font-size: 12px;
+    color: #555;
+    line-height: 1.7;
+    background: #fafafa;
+    margin-bottom: 20px;
+  }
+  .contract-box h4 { font-size: 13px; font-weight: 700; margin-bottom: 8px; color: #111; }
+  .contract-box p { margin-bottom: 12px; }
+
+  .checkbox-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 16px; }
+  .checkbox-row input { margin-top: 2px; flex-shrink: 0; width: 16px; height: 16px; }
+  .checkbox-row label { font-size: 13px; color: #444; line-height: 1.5; cursor: pointer; }
+
+  .confirm-screen { text-align: center; padding: 48px; }
+  .confirm-icon { width: 72px; height: 72px; border: 3px solid #111; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 24px; }
+  .confirm-title { font-size: 32px; font-weight: 800; margin-bottom: 12px; }
+  .confirm-sub { font-size: 16px; color: #666; margin-bottom: 32px; }
+  .next-steps { text-align: left; max-width: 480px; margin: 0 auto; }
+  .next-step { display: flex; gap: 16px; padding: 16px 0; border-bottom: 1px solid #f0f0f0; }
+  .next-num { font-size: 20px; font-weight: 800; color: #e0e0e0; flex-shrink: 0; }
+  .next-text { font-size: 14px; color: #555; line-height: 1.5; }
+
+  /* summary card sidebar */
+  .summary-card { margin-bottom: 24px; }
+  .summary-img { width: 100%; height: 160px; margin-bottom: 16px; }
+  .summary-name { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .summary-spec { font-size: 12px; color: #888; margin-bottom: 16px; }
+  .summary-row { display: flex; justify-content: space-between; font-size: 13px; padding: 8px 0; border-bottom: 1px solid #e0e0e0; }
+  .summary-row.total { font-weight: 700; font-size: 15px; border-bottom: none; padding-top: 12px; }
+  .trust-badges { display: flex; flex-direction: column; gap: 8px; margin-top: 24px; }
+  .trust-badge { display: flex; gap: 8px; align-items: center; font-size: 11px; color: #666; }
+  .trust-icon { width: 16px; height: 16px; background: #e0e0e0; flex-shrink: 0; }
+
+  /* ─── SCREEN 8: AI CONCIERGE ─── */
+  .concierge-page {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    height: calc(100vh - 82px);
+    background: #fff;
+  }
+  .concierge-sidebar {
+    background: #111;
+    color: #fff;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .concierge-sidebar-title { font-size: 14px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+  .suggestion-btn {
+    background: transparent;
+    border: 1px solid #333;
+    color: #ccc;
+    padding: 10px 14px;
+    font-size: 12px;
+    text-align: left;
+    cursor: pointer;
+    line-height: 1.4;
+    transition: all .15s;
+  }
+  .suggestion-btn:hover { background: #222; border-color: #555; color: #fff; }
+
+  .concierge-main {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .concierge-chat-header {
+    padding: 20px 32px;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .ai-avatar {
+    width: 36px;
+    height: 36px;
+    background: #111;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 800;
+  }
+  .ai-name { font-size: 14px; font-weight: 700; }
+  .ai-status { font-size: 11px; color: #4caf50; }
+
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: #fafafa;
+  }
+  .msg-row { display: flex; gap: 12px; align-items: flex-start; }
+  .msg-row.user { flex-direction: row-reverse; }
+  .msg-avatar { width: 32px; height: 32px; background: #e0e0e0; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+  .msg-avatar.ai { background: #111; color: #fff; }
+  .msg-bubble {
+    max-width: 60%;
+    padding: 12px 16px;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .msg-bubble.ai { background: #fff; border: 1px solid #e0e0e0; }
+  .msg-bubble.user { background: #111; color: #fff; }
+  .product-suggestions {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+  }
+  .prod-suggest-card {
+    border: 1px solid #e0e0e0;
+    background: #fff;
+    width: 160px;
+    overflow: hidden;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: border-color .15s;
+  }
+  .prod-suggest-card:hover { border-color: #111; }
+  .prod-suggest-img { width: 100%; height: 90px; }
+  .prod-suggest-info { padding: 10px; }
+  .prod-suggest-name { font-size: 11px; font-weight: 700; margin-bottom: 2px; }
+  .prod-suggest-price { font-size: 13px; font-weight: 800; }
+
+  .chat-bottom {
+    padding: 20px 32px;
+    border-top: 1px solid #e0e0e0;
+    background: #fff;
+  }
+  .chat-input-full {
+    display: flex;
+    border: 2px solid #111;
+    overflow: hidden;
+  }
+  .chat-input-full input {
+    flex: 1;
+    border: none;
+    padding: 14px 16px;
+    font-size: 14px;
+    outline: none;
+  }
+  .chat-input-full button {
+    background: #111;
+    color: #fff;
+    border: none;
+    padding: 14px 24px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .chat-tags { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+  .chat-tag {
+    border: 1px solid #e0e0e0;
+    padding: 4px 10px;
+    font-size: 11px;
+    cursor: pointer;
+    color: #666;
+    border-radius: 2px;
+  }
+  .chat-tag:hover { border-color: #111; color: #111; }
+
+  /* ─── SCREEN 9: B2B ─── */
+  .b2b-hero {
+    background: #111;
+    color: #fff;
+    padding: 80px 48px;
+  }
+  .b2b-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .b2b-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #888; margin-bottom: 16px; }
+  .b2b-h1 { font-size: 44px; font-weight: 800; line-height: 1.1; margin-bottom: 20px; }
+  .b2b-sub { font-size: 16px; color: #aaa; line-height: 1.6; margin-bottom: 32px; }
+  .b2b-form {
+    background: #fff;
+    color: #111;
+    padding: 32px;
+  }
+  .b2b-form-title { font-size: 18px; font-weight: 700; margin-bottom: 24px; }
+  .b2b-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin: 64px auto;
+    max-width: 1200px;
+    padding: 0 48px;
+  }
+  .b2b-stat {
+    border: 1px solid #333;
+    padding: 24px;
+    text-align: center;
+    background: #1a1a1a;
+  }
+  .b2b-stat-num { font-size: 36px; font-weight: 800; margin-bottom: 4px; }
+  .b2b-stat-label { font-size: 13px; color: #888; }
+
+  .b2b-use-cases {
+    background: #fff;
+    padding: 64px 48px;
+  }
+  .use-case-grid {
+    max-width: 1200px;
+    margin: 32px auto 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .use-case {
+    border: 1px solid #e0e0e0;
+    padding: 24px;
+  }
+  .use-case-icon { width: 40px; height: 40px; background: #111; margin-bottom: 16px; }
+  .use-case-title { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+  .use-case-desc { font-size: 13px; color: #666; line-height: 1.5; }
+
+  /* Footer */
+  .wf-footer {
+    background: #111;
+    color: #fff;
+    padding: 32px 48px;
+    font-size: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #666;
+  }
+</style>
+</head>
+<body>
+
+<!-- META NAV (screen switcher) -->
+<div class="switcher">
+  <span>TELAS:</span>
+  <button class="sw-btn active" onclick="showScreen('home')">① Home</button>
+  <button class="sw-btn" onclick="showScreen('catalog')">② Catálogo</button>
+  <button class="sw-btn" onclick="showScreen('product')">③ Produto</button>
+  <button class="sw-btn" onclick="showScreen('checkout1')">④ Checkout: Cadastro</button>
+  <button class="sw-btn" onclick="showScreen('checkout2')">⑤ Checkout: Pagamento</button>
+  <button class="sw-btn" onclick="showScreen('checkout3')">⑥ Checkout: Contrato</button>
+  <button class="sw-btn" onclick="showScreen('checkout4')">⑦ Checkout: Confirmação</button>
+  <button class="sw-btn" onclick="showScreen('concierge')">⑧ AI Concierge</button>
+  <button class="sw-btn" onclick="showScreen('b2b')">⑨ B2B Entry</button>
+  <span class="version-tag">AcerFlix Mockup v0.1 — B&W Wireframe</span>
+</div>
+
+<!-- ══════════════════════════════════
+     SCREEN 1: HOME
+══════════════════════════════════ -->
+<div class="screen active" id="screen-home">
+
+  <!-- NAV -->
+  <nav class="wf-nav">
+    <div class="wf-logo">ACER</div>
+    <div class="wf-nav-links">
+      <a>Produtos</a>
+      <a>Como funciona</a>
+      <a>Para Empresas</a>
+      <a>Suporte</a>
+    </div>
+    <div class="wf-nav-cta">
+      <button class="btn-ghost" onclick="showScreen('concierge')">💬 Falar com IA</button>
+      <button class="btn-outline">Entrar</button>
+      <button class="btn-primary" onclick="showScreen('catalog')">Assinar agora</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div style="background:#fff; border-bottom: 1px solid #e0e0e0;">
+    <div class="hero">
+      <div>
+        <div class="hero-eyebrow">Acer por Assinatura</div>
+        <h1 class="hero-h1">Tecnologia Acer todo mês. Sem complicação.</h1>
+        <p class="hero-sub">Escolha seu notebook, desktop ou monitor. Pague mensalmente. Sem entrada. Produto original Acer com suporte incluído.</p>
+        <div class="hero-ctas">
+          <button class="btn-primary" style="padding: 14px 28px; font-size: 15px;" onclick="showScreen('catalog')">Escolher produto</button>
+          <button class="btn-ghost" onclick="showScreen('concierge')">💬 Me ajuda a escolher</button>
+        </div>
+        <div class="note" style="margin-top:16px">CTA duplo: conversão direta + entry via AI Concierge</div>
+      </div>
+      <div class="img-ph hero-img">[ Imagem hero: notebook Acer aberto, fundo clean ]<br>Proporção 4:3</div>
+    </div>
+  </div>
+
+  <!-- BENEFITS STRIP -->
+  <div class="benefits-strip">
+    <div class="benefits-grid">
+      <div class="benefit-item">
+        <div class="benefit-icon">💳</div>
+        <div class="benefit-title">Sem entrada</div>
+        <div class="benefit-desc">Pague apenas a mensalidade. Zero desembolso inicial.</div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon">📅</div>
+        <div class="benefit-title">Parcela previsível</div>
+        <div class="benefit-desc">Valor fixo por 24 meses. Sem surpresas no bolso.</div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon">✅</div>
+        <div class="benefit-title">Produto original</div>
+        <div class="benefit-desc">Equipamento novo, garantia e suporte Acer oficial.</div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon">🔄</div>
+        <div class="benefit-title">Renovação futura</div>
+        <div class="benefit-desc">Ao final do contrato, opção de trocar por modelo mais novo.</div>
+      </div>
+    </div>
+    <div class="note" style="display:block; margin-top: 16px; max-width:1200px; margin-left:auto; margin-right:auto">Benefícios fixos — pesquisar com usuários quais ressoam mais para priorizar hierarquia</div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <div class="how-section">
+    <div style="max-width:1200px; margin:0 auto;">
+      <div class="section-label">Como funciona</div>
+      <h2 style="font-size:28px; font-weight:800;">Em 4 passos simples</h2>
+    </div>
+    <div class="how-steps">
+      <div class="how-step">
+        <div class="step-num">01</div>
+        <div class="step-title">Escolha o produto</div>
+        <div class="step-desc">Explore o catálogo por categoria ou deixe a IA te ajudar a decidir.</div>
+      </div>
+      <div class="how-step">
+        <div class="step-num">02</div>
+        <div class="step-title">Faça seu cadastro</div>
+        <div class="step-desc">Dados básicos + CPF. Rápido e 100% digital.</div>
+      </div>
+      <div class="how-step">
+        <div class="step-num">03</div>
+        <div class="step-title">Informe o cartão</div>
+        <div class="step-desc">O limite das 24 parcelas é comprometido no cartão. A cobrança é mensal.</div>
+      </div>
+      <div class="how-step">
+        <div class="step-num">04</div>
+        <div class="step-title">Receba em casa</div>
+        <div class="step-desc">Produto original Acer entregue no endereço cadastrado.</div>
+      </div>
+    </div>
+    <div style="max-width:1200px; margin: 16px auto 0;">
+      <div class="note">Passo 03 é o mais sensível — atenção especial ao copy de "comprometimento de limite"</div>
+    </div>
+  </div>
+
+  <!-- FEATURED PRODUCTS -->
+  <div class="featured-products">
+    <div style="max-width:1200px; margin:0 auto; display:flex; justify-content:space-between; align-items:center;">
+      <div>
+        <div class="section-label">Produtos em destaque</div>
+        <h2 style="font-size:28px; font-weight:800;">Os mais escolhidos</h2>
+      </div>
+      <button class="btn-outline" onclick="showScreen('catalog')">Ver catálogo completo →</button>
+    </div>
+    <div class="prod-grid-home">
+      <div class="prod-card-home" onclick="showScreen('product')">
+        <div class="img-ph prod-img-home">[ Notebook Aspire 5 ]</div>
+        <div class="prod-info-home">
+          <div class="badge" style="margin-bottom:8px">Trabalho</div>
+          <div class="prod-name">Acer Aspire 5</div>
+          <div class="prod-uso">Intel Core i5 · 8GB RAM · 512GB SSD · 15.6"</div>
+          <div class="prod-price-from">a partir de</div>
+          <div style="display:flex; align-items:baseline; gap:4px">
+            <div class="prod-price-val">R$ 189</div>
+            <div class="prod-price-period">/mês</div>
+          </div>
+        </div>
+      </div>
+      <div class="prod-card-home" onclick="showScreen('product')">
+        <div class="img-ph prod-img-home">[ Notebook Swift 3 ]</div>
+        <div class="prod-info-home">
+          <div class="badge" style="margin-bottom:8px; background:#555">Home Office</div>
+          <div class="prod-name">Acer Swift 3</div>
+          <div class="prod-uso">Intel Core i7 · 16GB RAM · 512GB SSD · 14"</div>
+          <div class="prod-price-from">a partir de</div>
+          <div style="display:flex; align-items:baseline; gap:4px">
+            <div class="prod-price-val">R$ 249</div>
+            <div class="prod-price-period">/mês</div>
+          </div>
+        </div>
+      </div>
+      <div class="prod-card-home" onclick="showScreen('product')">
+        <div class="img-ph prod-img-home">[ Monitor Nitro ]</div>
+        <div class="prod-info-home">
+          <div class="badge" style="margin-bottom:8px; background:#888">Monitor</div>
+          <div class="prod-name">Acer Nitro VG240Y</div>
+          <div class="prod-uso">24" · Full HD · 165Hz · IPS</div>
+          <div class="prod-price-from">a partir de</div>
+          <div style="display:flex; align-items:baseline; gap:4px">
+            <div class="prod-price-val">R$ 89</div>
+            <div class="prod-price-period">/mês</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI CONCIERGE TEASER -->
+  <div class="concierge-strip">
+    <div class="concierge-inner">
+      <div>
+        <div class="section-label">AI Concierge</div>
+        <h2 style="font-size:32px; font-weight:800; margin-bottom:16px;">Não sabe qual produto escolher?</h2>
+        <p style="font-size:15px; color:#555; line-height:1.6; margin-bottom:24px;">Nossa IA conversa com você, entende como você usa o computador e recomenda o produto ideal. Simples assim.</p>
+        <button class="btn-primary" onclick="showScreen('concierge')">💬 Falar com o Concierge</button>
+      </div>
+      <div>
+        <div class="chat-preview">
+          <div class="chat-msg">
+            <div style="width:24px;height:24px;background:#111;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff">A</div>
+            <div class="chat-bubble-ai">Olá! 👋 Me conta — pra que você vai usar o computador principalmente?</div>
+          </div>
+          <div class="chat-msg" style="justify-content:flex-end">
+            <div class="chat-bubble-user">Trabalho remoto e às vezes edito foto</div>
+          </div>
+          <div class="chat-msg">
+            <div style="width:24px;height:24px;background:#111;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff">A</div>
+            <div class="chat-bubble-ai">Perfeito! Para esse perfil, tenho 3 opções a partir de R$ 189/mês. Posso mostrar?</div>
+          </div>
+          <div class="chat-input-row">
+            <input type="text" placeholder="Digite sua resposta...">
+            <button>→</button>
+          </div>
+        </div>
+        <div class="note">Snippet do chat deve parecer natural, não robótico</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="wf-footer">
+    <div>© 2025 Acer Inc. Todos os direitos reservados.</div>
+    <div>Termos de uso · Política de privacidade · Suporte</div>
+    <div style="cursor:pointer; color:#555;" onclick="showScreen('b2b')">Soluções para empresas →</div>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════
+     SCREEN 2: CATÁLOGO
+══════════════════════════════════ -->
+<div class="screen" id="screen-catalog">
+
+  <nav class="wf-nav">
+    <div class="wf-logo">ACER</div>
+    <div class="wf-nav-links">
+      <a style="font-weight:700; text-decoration:underline">Produtos</a>
+      <a>Como funciona</a>
+      <a>Para Empresas</a>
+    </div>
+    <div class="wf-nav-cta">
+      <button class="btn-ghost" onclick="showScreen('concierge')">💬 Falar com IA</button>
+      <button class="btn-outline">Entrar</button>
+    </div>
+  </nav>
+
+  <div class="catalog-header">
+    <div style="max-width:1200px; margin:0 auto;">
+      <div class="catalog-h1">Todos os produtos</div>
+      <div class="catalog-sub">Escolha por categoria ou use o filtro de perfil de uso</div>
+      <div class="catalog-cats">
+        <div class="cat-tab active">Todos</div>
+        <div class="cat-tab">Notebooks</div>
+        <div class="cat-tab">Desktops</div>
+        <div class="cat-tab">Monitores</div>
+        <div class="cat-tab">Kits</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="catalog-body">
+    <div style="max-width:1200px; margin:0 auto;">
+
+      <div class="catalog-filters">
+        <span class="filter-label">Perfil de uso:</span>
+        <div class="chip selected">Todos</div>
+        <div class="chip">Estudo</div>
+        <div class="chip">Trabalho</div>
+        <div class="chip">Home Office</div>
+        <div class="chip">Criação</div>
+        <div class="chip">Performance</div>
+        <div class="chip">Gamer</div>
+        <div style="margin-left:auto; display:flex; gap:8px; align-items:center;">
+          <span class="filter-label">Ordenar:</span>
+          <select style="border:1px solid #ccc; padding:6px 10px; font-size:12px; outline:none;">
+            <option>Menor mensalidade</option>
+            <option>Maior performance</option>
+            <option>Mais vendidos</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="note" style="margin-bottom:16px">Filtro por perfil de uso é o diferencial vs. e-commerce tradicional — aproxima da lógica de streaming</div>
+
+      <div class="catalog-grid">
+        <!-- Card 1 -->
+        <div class="prod-card" onclick="showScreen('product')">
+          <div class="img-ph prod-card-img">[ Aspire 5 ]</div>
+          <div class="prod-card-body">
+            <div class="prod-card-tag"><span class="badge">Trabalho</span></div>
+            <div class="prod-card-name">Acer Aspire 5 A515</div>
+            <div class="prod-card-spec">Intel i5 · 8GB · 512GB SSD<br>15.6" Full HD</div>
+            <div class="prod-card-price">
+              <span class="price-from">de</span>
+              <span class="price-val">R$ 189</span>
+              <span class="price-period">/mês</span>
+            </div>
+          </div>
+        </div>
+        <!-- Card 2 -->
+        <div class="prod-card" onclick="showScreen('product')">
+          <div class="img-ph prod-card-img">[ Swift 3 ]</div>
+          <div class="prod-card-body">
+            <div class="prod-card-tag"><span class="badge" style="background:#555">Home Office</span></div>
+            <div class="prod-card-name">Acer Swift 3 SF314</div>
+            <div class="prod-card-spec">Intel i7 · 16GB · 512GB SSD<br>14" 2K IPS</div>
+            <div class="prod-card-price">
+              <span class="price-from">de</span>
+              <span class="price-val">R$ 249</span>
+              <span class="price-period">/mês</span>
+            </div>
+          </div>
+        </div>
+        <!-- Card 3 -->
+        <div class="prod-card" onclick="showScreen('product')">
+          <div class="img-ph prod-card-img">[ Predator Helios ]</div>
+          <div class="prod-card-body">
+            <div class="prod-card-tag"><span class="badge" style="background:#222">Gamer</span></div>
+            <div class="prod-card-name">Acer Predator Helios 300</div>
+            <div class="prod-card-spec">Intel i7 · 16GB · 1TB SSD<br>15.6" 144Hz · RTX 3060</div>
+            <div class="prod-card-price">
+              <span class="price-from">de</span>
+              <span class="price-val">R$ 399</span>
+              <span class="price-period">/mês</span>
+            </div>
+          </div>
+        </div>
+        <!-- Card 4 -->
+        <div class="prod-card" onclick="showScreen('product')">
+          <div class="img-ph prod-card-img">[ ConceptD ]</div>
+          <div class="prod-card-body">
+            <div class="prod-card-tag"><span class="badge" style="background:#444">Criação</span></div>
+            <div class="prod-card-name">Acer ConceptD 3</div>
+            <div class="prod-card-spec">Intel i7 · 32GB · 1TB SSD<br>15.6" 4K OLED · RTX 3050Ti</div>
+            <div class="prod-card-price">
+              <span class="price-from">de</span>
+              <span class="price-val">R$ 459</span>
+              <span class="price-period">/mês</span>
+            </div>
+          </div>
+        </div>
+        <!-- Card 5 -->
+        <div class="prod-card" onclick="showScreen('product')">
+          <div class="img-ph prod-card-img">[ Aspire 3 ]</div>
+          <div class="prod-card-body">
+            <div class="prod-card-tag"><span class="badge" style="background:#888">Estudo</span></div>
+            <div class="prod-card-name">Acer Aspire 3 A314</div>
+            <div class="prod-card-spec">Intel i3 · 8GB · 256GB SSD<br>14" Full HD</div>
+            <div class="prod-card-price">
+              <span class="price-from">de</span>
+              <span class="price-val">R$ 129</span>
+              <span class="price-period">/mês</span>
+            </div>
+          </div>
+        </div>
+        <!-- Card 6 -->
+        <div class="prod-card" onclick="showScreen('product')">
+          <div class="img-ph prod-card-img">[ Monitor Nitro 24" ]</div>
+          <div class="prod-card-body">
+            <div class="prod-card-tag"><span class="badge" style="background:#aaa; color:#111">Monitor</span></div>
+            <div class="prod-card-name">Acer Nitro VG240Y</div>
+            <div class="prod-card-spec">24" Full HD · 165Hz · IPS<br>1ms · FreeSync</div>
+            <div class="prod-card-price">
+              <span class="price-from">de</span>
+              <span class="price-val">R$ 89</span>
+              <span class="price-period">/mês</span>
+            </div>
+          </div>
+        </div>
+        <!-- Card 7 -->
+        <div class="prod-card" onclick="showScreen('product')">
+          <div class="img-ph prod-card-img">[ Veriton Desktop ]</div>
+          <div class="prod-card-body">
+            <div class="prod-card-tag"><span class="badge" style="background:#333">Desktop</span></div>
+            <div class="prod-card-name">Acer Veriton X2690</div>
+            <div class="prod-card-spec">Intel i5 · 16GB · 512GB SSD<br>Desktop compacto · Win 11 Pro</div>
+            <div class="prod-card-price">
+              <span class="price-from">de</span>
+              <span class="price-val">R$ 169</span>
+              <span class="price-period">/mês</span>
+            </div>
+          </div>
+        </div>
+        <!-- Card 8 — KIT -->
+        <div class="prod-card" onclick="showScreen('product')">
+          <div class="img-ph prod-card-img">[ Kit Home Office ]</div>
+          <div class="prod-card-body">
+            <div class="prod-card-tag"><span class="badge" style="background:#555">Kit</span>&nbsp;<span style="font-size:10px;color:#888;">Notebook + Monitor</span></div>
+            <div class="prod-card-name">Kit Home Office Completo</div>
+            <div class="prod-card-spec">Swift 3 + Monitor 24" IPS<br>Combo com desconto</div>
+            <div class="prod-card-price">
+              <span class="price-from">de</span>
+              <span class="price-val">R$ 299</span>
+              <span class="price-period">/mês</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="note" style="margin-top:16px">Incluir "Kit" como categoria reforça proposta de valor para B2B no futuro</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     SCREEN 3: PRODUTO
+══════════════════════════════════ -->
+<div class="screen" id="screen-product">
+  <div class="product-page">
+    <nav class="wf-nav">
+      <div class="wf-logo">ACER</div>
+      <div class="wf-nav-links"><a onclick="showScreen('catalog')">← Catálogo</a></div>
+      <div class="wf-nav-cta">
+        <button class="btn-ghost" onclick="showScreen('concierge')">💬 Falar com IA</button>
+      </div>
+    </nav>
+
+    <div class="product-breadcrumb">
+      <span onclick="showScreen('home')" style="cursor:pointer">Home</span> ›
+      <span onclick="showScreen('catalog')" style="cursor:pointer">Notebooks</span> ›
+      <span>Acer Swift 3</span>
+    </div>
+
+    <div class="product-main">
+      <!-- Gallery -->
+      <div class="product-gallery">
+        <div class="img-ph product-main-img">[ Foto principal: Acer Swift 3 · ângulo 3/4 ]</div>
+        <div class="product-thumbs">
+          <div class="img-ph product-thumb">[ Front ]</div>
+          <div class="img-ph product-thumb">[ Side ]</div>
+          <div class="img-ph product-thumb">[ Open ]</div>
+          <div class="img-ph product-thumb">[ Detail ]</div>
+        </div>
+        <div class="note">Galeria mínima: 4 fotos. Sem zoom excessivo — produto de confiança, não vitrine.</div>
+      </div>
+
+      <!-- Info -->
+      <div class="product-info">
+        <div>
+          <div class="product-brand">Acer · Notebook</div>
+          <h1 class="product-title">Acer Swift 3<br>SF314-512</h1>
+          <div class="product-uso-tag">Ideal para: Home Office e Produtividade</div>
+        </div>
+
+        <!-- Price box -->
+        <div class="price-box">
+          <div class="price-box-label">Mensalidade</div>
+          <div class="price-box-main">R$ 249<span style="font-size:20px; font-weight:400; color:#666">/mês</span></div>
+          <div class="price-box-sub">Contrato de 24 meses · Total R$ 5.976</div>
+          <div class="price-box-info">
+            <div class="info-icon">i</div>
+            <span>O limite de R$ 5.976 é comprometido no cartão. A cobrança é feita mensalmente.</span>
+          </div>
+          <div class="note" style="display:block; margin-top:8px">Tooltip do "i" deve explicar de forma amigável o mecanismo de pré-autorização</div>
+        </div>
+
+        <!-- Specs -->
+        <div>
+          <div class="section-label">Especificações principais</div>
+          <div class="product-specs">
+            <div class="spec-row"><span class="spec-label">Processador</span><span class="spec-val">Intel Core i7-1260P</span></div>
+            <div class="spec-row"><span class="spec-label">Memória RAM</span><span class="spec-val">16 GB DDR5</span></div>
+            <div class="spec-row"><span class="spec-label">Armazenamento</span><span class="spec-val">512 GB NVMe SSD</span></div>
+            <div class="spec-row"><span class="spec-label">Tela</span><span class="spec-val">14" 2K IPS · 100% sRGB</span></div>
+            <div class="spec-row"><span class="spec-label">Bateria</span><span class="spec-val">até 12h · Carregamento rápido</span></div>
+            <div class="spec-row"><span class="spec-label">Sistema</span><span class="spec-val">Windows 11 Home</span></div>
+          </div>
+          <div class="note">Sem spec-dump — mostrar apenas o que orienta a decisão de compra</div>
+        </div>
+
+        <!-- Incluso -->
+        <div class="incluso-box">
+          <div class="incluso-title">O que está incluso</div>
+          <ul class="incluso-list">
+            <li>Produto novo, lacrado, com nota fiscal</li>
+            <li>Garantia oficial Acer (1 ano)</li>
+            <li>Suporte técnico remoto prioritário</li>
+            <li>Entrega em até 5 dias úteis</li>
+            <li>Opção de renovação ao final do contrato</li>
+          </ul>
+        </div>
+
+        <!-- CTAs -->
+        <div class="product-ctas">
+          <button class="btn-lg primary" onclick="showScreen('checkout1')">Assinar por R$ 249/mês</button>
+          <button class="btn-lg secondary" onclick="showScreen('concierge')">💬 Tenho dúvidas — falar com IA</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Comparação -->
+    <div class="compare-section">
+      <div style="max-width:1200px; margin:0 auto;">
+        <div class="section-label">Comparação de modelos</div>
+        <h2 style="font-size:24px; font-weight:800; margin-bottom:8px;">Swift 3 vs. outros modelos</h2>
+        <div class="note">Comparação deve ajudar a decidir, não confundir — max 3 modelos, 6 atributos</div>
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>Característica</th>
+              <th>Aspire 3<br><span style="font-weight:400; color:#aaa">R$ 129/mês</span></th>
+              <th style="background:#333">Swift 3 ← você está aqui<br><span style="font-weight:400; color:#aaa">R$ 249/mês</span></th>
+              <th>ConceptD 3<br><span style="font-weight:400; color:#aaa">R$ 459/mês</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Processador</td>
+              <td>Intel i3</td>
+              <td class="highlight">Intel i7 ✓</td>
+              <td>Intel i7</td>
+            </tr>
+            <tr>
+              <td>RAM</td>
+              <td>8 GB</td>
+              <td class="highlight">16 GB ✓</td>
+              <td>32 GB</td>
+            </tr>
+            <tr>
+              <td>Tela</td>
+              <td>14" FHD</td>
+              <td class="highlight">14" 2K IPS ✓</td>
+              <td>15.6" 4K OLED</td>
+            </tr>
+            <tr>
+              <td>Peso</td>
+              <td>1.8 kg</td>
+              <td class="highlight">1.4 kg ✓</td>
+              <td>2.0 kg</td>
+            </tr>
+            <tr>
+              <td>Ideal para</td>
+              <td>Estudo básico</td>
+              <td class="highlight">Home office / trabalho</td>
+              <td>Criação visual</td>
+            </tr>
+            <tr>
+              <td>Edição de foto/vídeo</td>
+              <td class="dash">Básica</td>
+              <td class="highlight check">✓ Bom desempenho</td>
+              <td class="check">✓ Excelente</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     SCREEN 4: CHECKOUT — CADASTRO
+══════════════════════════════════ -->
+<div class="screen" id="screen-checkout1">
+  <nav class="wf-nav">
+    <div class="wf-logo">ACER</div>
+    <div style="font-size:13px; color:#888">Checkout seguro</div>
+    <div style="font-size:12px; color:#aaa">🔒 SSL · Dados protegidos</div>
+  </nav>
+
+  <div class="checkout-shell">
+    <div class="checkout-main">
+      <!-- Progress -->
+      <div class="progress-bar">
+        <div class="progress-step">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+            <div class="step-circle active">1</div>
+            <div class="step-name">Cadastro</div>
+          </div>
+          <div class="step-line"></div>
+        </div>
+        <div class="progress-step">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+            <div class="step-circle">2</div>
+            <div class="step-name">Pagamento</div>
+          </div>
+          <div class="step-line"></div>
+        </div>
+        <div class="progress-step">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+            <div class="step-circle">3</div>
+            <div class="step-name">Contrato</div>
+          </div>
+          <div class="step-line"></div>
+        </div>
+        <div class="progress-step">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+            <div class="step-circle">4</div>
+            <div class="step-name">Confirmação</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="checkout-title">Seus dados</div>
+      <div class="checkout-sub">Precisamos de algumas informações para verificar seu cadastro.</div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Nome completo</label>
+          <input class="form-input" type="text" placeholder="Como está no documento">
+        </div>
+        <div class="form-group">
+          <label class="form-label">CPF</label>
+          <input class="form-input" type="text" placeholder="000.000.000-00">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">E-mail</label>
+          <input class="form-input" type="email" placeholder="seu@email.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Celular</label>
+          <input class="form-input" type="text" placeholder="(11) 9 0000-0000">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Data de nascimento</label>
+        <input class="form-input" style="max-width:200px" type="text" placeholder="DD/MM/AAAA">
+      </div>
+
+      <hr class="divider">
+
+      <div style="font-size:14px; font-weight:700; margin-bottom:16px;">Endereço de entrega</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">CEP</label>
+          <input class="form-input" type="text" placeholder="00000-000">
+        </div>
+        <div class="form-group" style="display:flex; align-items:flex-end;">
+          <button class="btn-ghost" style="width:100%; padding:12px;">Buscar endereço →</button>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group" style="grid-column: span 2">
+          <label class="form-label">Endereço</label>
+          <input class="form-input" type="text" placeholder="Rua, número, complemento">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Cidade</label>
+          <input class="form-input" type="text">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Estado</label>
+          <input class="form-input" type="text">
+        </div>
+      </div>
+
+      <div class="note" style="margin-bottom:24px">Autocompletar via CEP reduz atrito — campo de CEP deve fazer lookup automático</div>
+
+      <div style="display:flex; justify-content:flex-end; gap:12px; margin-top:24px;">
+        <button class="btn-outline" onclick="showScreen('product')">← Voltar</button>
+        <button class="btn-primary" style="padding:12px 32px" onclick="showScreen('checkout2')">Continuar →</button>
+      </div>
+    </div>
+
+    <!-- Sidebar resumo -->
+    <div class="checkout-sidebar">
+      <div class="section-label">Resumo do pedido</div>
+      <div class="summary-card">
+        <div class="img-ph summary-img">[ Swift 3 ]</div>
+        <div class="summary-name">Acer Swift 3 SF314-512</div>
+        <div class="summary-spec">Intel i7 · 16GB · 512GB · 14" 2K</div>
+        <div class="summary-row"><span>Mensalidade</span><span>R$ 249,00</span></div>
+        <div class="summary-row"><span>Prazo</span><span>24 meses</span></div>
+        <div class="summary-row"><span>Entrega</span><span>Grátis</span></div>
+        <div class="summary-row total"><span>Total contrato</span><span>R$ 5.976,00</span></div>
+      </div>
+      <div class="trust-badges">
+        <div class="trust-badge"><div class="trust-icon"></div>Produto original Acer</div>
+        <div class="trust-badge"><div class="trust-icon"></div>Contrato 100% digital</div>
+        <div class="trust-badge"><div class="trust-icon"></div>Dados protegidos (SSL)</div>
+        <div class="trust-badge"><div class="trust-icon"></div>Garantia de 12 meses</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     SCREEN 5: CHECKOUT — PAGAMENTO
+══════════════════════════════════ -->
+<div class="screen" id="screen-checkout2">
+  <nav class="wf-nav">
+    <div class="wf-logo">ACER</div>
+    <div style="font-size:13px; color:#888">Checkout seguro</div>
+    <div style="font-size:12px; color:#aaa">🔒 SSL · Dados protegidos</div>
+  </nav>
+
+  <div class="checkout-shell">
+    <div class="checkout-main">
+      <div class="progress-bar">
+        <div class="progress-step">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+            <div class="step-circle done">✓</div>
+            <div class="step-name">Cadastro</div>
+          </div>
+          <div class="step-line done"></div>
+        </div>
+        <div class="progress-step">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+            <div class="step-circle active">2</div>
+            <div class="step-name">Pagamento</div>
+          </div>
+          <div class="step-line"></div>
+        </div>
+        <div class="progress-step">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+            <div class="step-circle">3</div>
+            <div class="step-name">Contrato</div>
+          </div>
+          <div class="step-line"></div>
+        </div>
+        <div class="progress-step">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+            <div class="step-circle">4</div>
+            <div class="step-name">Confirmação</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="checkout-title">Forma de pagamento</div>
+      <div class="checkout-sub">Informe o cartão que será usado para as cobranças mensais.</div>
+
+      <!-- CREDIT BOX — pré-autorização -->
+      <div class="credit-box">
+        <div class="credit-box-title">⚠️ Entenda como funciona o comprometimento de limite</div>
+        <div class="credit-box-text">
+          Para garantir a assinatura, o valor total do contrato é <strong>comprometido no limite do cartão</strong> de uma só vez. As cobranças continuam mensais, mas o banco reserva o limite equivalente às 24 parcelas.
+        </div>
+        <div class="credit-box-highlight">Limite comprometido: R$ 5.976,00</div>
+        <div class="credit-box-text" style="font-size:12px; color:#666">
+          Cobrança mensal: R$ 249,00 × 24 meses. Isso <strong>não significa</strong> uma cobrança única — você paga mês a mês.
+        </div>
+        <div class="note" style="margin-top:8px">Esta é a tela mais sensível do fluxo — copy deve ser claro, honesto, sem esconder informação. Risco de abandono alto aqui.</div>
+      </div>
+
+      <!-- Visual cartão -->
+      <div class="card-visual">
+        <div class="card-chip"></div>
+        <div class="card-num">•••• •••• •••• 0000</div>
+        <div class="card-bottom">
+          <span>NOME DO TITULAR</span>
+          <span>MM/AA</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Número do cartão</label>
+        <input class="form-input" type="text" placeholder="0000 0000 0000 0000">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Nome no cartão</label>
+          <input class="form-input" type="text" placeholder="Como está impresso">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Validade</label>
+          <input class="form-input" type="text" placeholder="MM/AA">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">CVV</label>
+          <input class="form-input" style="max-width:120px" type="text" placeholder="000">
+        </div>
+        <div class="form-group" style="display:flex; align-items:flex-end; padding-bottom:20px;">
+          <span style="font-size:12px; color:#888;">🔒 Dados criptografados</span>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end; gap:12px; margin-top:24px;">
+        <button class="btn-outline" onclick="showScreen('checkout1')">← Voltar</button>
+        <button class="btn-primary" style="padding:12px 32px" onclick="showScreen('checkout3')">Continuar →</button>
+      </div>
+    </div>
+
+    <div class="checkout-sidebar">
+      <div class="section-label">Resumo do pedido</div>
+      <div class="summary-card">
+        <div class="img-ph summary-img">[ Swift 3 ]</div>
+        <div class="summary-name">Acer Swift 3 SF314-512</div>
+        <div class="summary-spec">Intel i7 · 16GB · 512GB · 14" 2K</div>
+        <div class="summary-row"><span>Mensalidade</span><span>R$ 249,00</span></div>
+        <div class="summary-row"><span>Prazo</span><span>24 meses</span></div>
+        <div class="summary-row"><span>Entrega</span><span>Grátis</span></div>
+        <div class="summary-row total"><span>Total contrato</span><span>R$ 5.976,00</span></div>
+      </div>
+      <div style="background:#fff3e0; border:1px solid #ffb74d; padding:16px; font-size:12px; color:#555; line-height:1.6; margin-top:16px;">
+        <strong>Limite comprometido no cartão:</strong><br>
+        R$ 5.976,00<br><br>
+        <strong>Primeira cobrança:</strong><br>
+        R$ 249,00 — após aprovação
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     SCREEN 6: CHECKOUT — CONTRATO
+══════════════════════════════════ -->
+<div class="screen" id="screen-checkout3">
+  <nav class="wf-nav">
+    <div class="wf-logo">ACER</div>
+    <div style="font-size:13px; color:#888">Checkout seguro</div>
+    <div style="font-size:12px; color:#aaa">🔒 SSL · Dados protegidos</div>
+  </nav>
+
+  <div class="checkout-shell">
+    <div class="checkout-main">
+      <div class="progress-bar">
+        <div class="progress-step">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+            <div class="step-circle done">✓</div>
+            <div class="step-name">Cadastro</div>
+          </div>
+          <div class="step-line done"></div>
+        </div>
+        <div class="progress-step">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+            <div class="step-circle done">✓</div>
+            <div class="step-name">Pagamento</div>
+          </div>
+          <div class="step-line done"></div>
+        </div>
+        <div class="progress-step">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+            <div class="step-circle active">3</div>
+            <div class="step-name">Contrato</div>
+          </div>
+          <div class="step-line"></div>
+        </div>
+        <div class="progress-step">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+            <div class="step-circle">4</div>
+            <div class="step-name">Confirmação</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="checkout-title">Contrato de assinatura</div>
+      <div class="checkout-sub">Leia o contrato e confirme sua assinatura digital.</div>
+
+      <div class="contract-box">
+        <h4>CONTRATO DE LOCAÇÃO DE EQUIPAMENTOS — ACER BRASIL</h4>
+        <p>Este instrumento particular de locação de equipamentos é celebrado entre a <strong>Acer Brasil Comércio e Serviços Ltda.</strong>, doravante denominada LOCADORA, e o LOCATÁRIO identificado no cadastro.</p>
+        <h4>CLÁUSULA 1 — OBJETO</h4>
+        <p>O presente contrato tem por objeto a locação do seguinte equipamento: <strong>Acer Swift 3 SF314-512</strong>, conforme especificações técnicas descritas no pedido.</p>
+        <h4>CLÁUSULA 2 — PRAZO E VALOR</h4>
+        <p>O prazo de locação é de <strong>24 (vinte e quatro) meses</strong>, com valor mensal de <strong>R$ 249,00</strong>, totalizando <strong>R$ 5.976,00</strong>. A cobrança será realizada mensalmente no cartão de crédito informado.</p>
+        <h4>CLÁUSULA 3 — COMPROMETIMENTO DE LIMITE</h4>
+        <p>Para garantia do contrato, o valor total de R$ 5.976,00 será comprometido no limite do cartão de crédito informado pelo LOCATÁRIO, conforme autorização expressa neste instrumento. Este comprometimento não implica em cobrança única, apenas na reserva do limite para as cobranças mensais.</p>
+        <h4>CLÁUSULA 4 — CONSERVAÇÃO DO BEM</h4>
+        <p>O LOCATÁRIO compromete-se a usar o equipamento de forma adequada, respondendo por danos causados por mau uso, quedas ou acidentes não cobertos pela garantia.</p>
+        <h4>CLÁUSULA 5 — SUPORTE TÉCNICO</h4>
+        <p>A LOCADORA garantirá suporte técnico remoto durante toda a vigência do contrato, nos termos da política de atendimento vigente.</p>
+        <p style="color:#999; font-size:11px;">[... demais cláusulas padronizadas ...]</p>
+      </div>
+      <div class="note" style="margin-bottom:16px">Contrato deve ser scrollável mas com highlight dos pontos principais antes de assinar</div>
+
+      <div class="checkbox-row">
+        <input type="checkbox" id="c1">
+        <label for="c1">Li e concordo com os termos do <strong>Contrato de Assinatura Acer</strong></label>
+      </div>
+      <div class="checkbox-row">
+        <input type="checkbox" id="c2">
+        <label for="c2">Autorizo o <strong>comprometimento de R$ 5.976,00</strong> no limite do meu cartão para garantia do contrato, com cobrança mensal de R$ 249,00</label>
+      </div>
+      <div class="checkbox-row">
+        <input type="checkbox" id="c3">
+        <label for="c3">Concordo com a <strong>Política de Privacidade</strong> e tratamento dos meus dados pessoais</label>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end; gap:12px; margin-top:24px;">
+        <button class="btn-outline" onclick="showScreen('checkout2')">← Voltar</button>
+        <button class="btn-primary" style="padding:12px 32px; font-size:15px" onclick="showScreen('checkout4')">✍️ Assinar contrato e confirmar</button>
+      </div>
+    </div>
+
+    <div class="checkout-sidebar">
+      <div class="section-label">Resumo final</div>
+      <div class="summary-card">
+        <div class="img-ph summary-img">[ Swift 3 ]</div>
+        <div class="summary-name">Acer Swift 3 SF314-512</div>
+        <div class="summary-spec">Intel i7 · 16GB · 512GB · 14" 2K</div>
+        <div class="summary-row"><span>Mensalidade</span><span><strong>R$ 249,00</strong></span></div>
+        <div class="summary-row"><span>Prazo</span><span>24 meses</span></div>
+        <div class="summary-row total"><span>Limite comprometido</span><span>R$ 5.976,00</span></div>
+      </div>
+      <div style="background:#f5f5f5; border:1px solid #e0e0e0; padding:16px; font-size:12px; color:#666; line-height:1.6; margin-top:16px;">
+        Ao assinar, você confirma que leu e aceita os termos do contrato. O equipamento será enviado após aprovação do cadastro.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     SCREEN 7: CHECKOUT — CONFIRMAÇÃO
+══════════════════════════════════ -->
+<div class="screen" id="screen-checkout4">
+  <nav class="wf-nav">
+    <div class="wf-logo">ACER</div>
+    <div style="font-size:13px; color:#888">Pedido realizado</div>
+  </nav>
+
+  <div style="background:#fff; padding:48px;">
+    <div class="confirm-screen">
+      <div class="confirm-icon">✓</div>
+      <div class="confirm-title">Assinatura confirmada!</div>
+      <div class="confirm-sub">Seu pedido foi recebido. Em breve você receberá um e-mail com os próximos passos.</div>
+
+      <div style="background:#f5f5f5; border:1px solid #e0e0e0; padding:20px; max-width:480px; margin:0 auto 32px; text-align:left;">
+        <div style="font-size:12px; color:#888; margin-bottom:8px;">RESUMO DO PEDIDO</div>
+        <div style="font-size:14px; font-weight:700; margin-bottom:4px;">Acer Swift 3 SF314-512</div>
+        <div style="font-size:12px; color:#888; margin-bottom:12px;">Pedido #ACR-2025-087432</div>
+        <div style="display:flex; justify-content:space-between; font-size:13px; padding:6px 0; border-bottom:1px solid #e0e0e0;"><span>Mensalidade</span><span>R$ 249,00/mês</span></div>
+        <div style="display:flex; justify-content:space-between; font-size:13px; padding:6px 0; border-bottom:1px solid #e0e0e0;"><span>Prazo</span><span>24 meses</span></div>
+        <div style="display:flex; justify-content:space-between; font-size:13px; padding:6px 0;"><span>Primeira cobrança</span><span>Após aprovação</span></div>
+      </div>
+
+      <div class="next-steps">
+        <div style="font-size:14px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:#888; margin-bottom:16px;">O que acontece agora</div>
+        <div class="next-step">
+          <div class="next-num">01</div>
+          <div class="next-text"><strong>Análise de cadastro</strong><br>Verificamos seus dados em até 24 horas úteis.</div>
+        </div>
+        <div class="next-step">
+          <div class="next-num">02</div>
+          <div class="next-text"><strong>E-mail de aprovação</strong><br>Você recebe a confirmação com detalhes do envio.</div>
+        </div>
+        <div class="next-step">
+          <div class="next-num">03</div>
+          <div class="next-text"><strong>Envio do produto</strong><br>Equipamento despachado em até 2 dias úteis após aprovação.</div>
+        </div>
+        <div class="next-step">
+          <div class="next-num">04</div>
+          <div class="next-text"><strong>Primeira cobrança</strong><br>R$ 249,00 cobrado na data de entrega confirmada.</div>
+        </div>
+      </div>
+
+      <div style="margin-top:40px; display:flex; gap:12px; justify-content:center;">
+        <button class="btn-outline" onclick="showScreen('home')">Voltar para o início</button>
+        <button class="btn-ghost">Acompanhar pedido</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     SCREEN 8: AI CONCIERGE
+══════════════════════════════════ -->
+<div class="screen" id="screen-concierge">
+  <nav class="wf-nav">
+    <div class="wf-logo">ACER</div>
+    <div style="font-size:13px; color:#888">AI Concierge</div>
+    <div class="wf-nav-cta">
+      <button class="btn-ghost" onclick="showScreen('catalog')">Ver catálogo</button>
+    </div>
+  </nav>
+
+  <div class="concierge-page">
+    <!-- Sidebar -->
+    <div class="concierge-sidebar">
+      <div class="concierge-sidebar-title">Comece por aqui</div>
+      <button class="suggestion-btn">💻 Qual notebook é ideal para mim?</button>
+      <button class="suggestion-btn">💰 Quanto vou pagar no total?</button>
+      <button class="suggestion-btn">🔄 Como funciona a assinatura?</button>
+      <button class="suggestion-btn">📋 Quais documentos preciso?</button>
+      <button class="suggestion-btn">🏢 Tenho interesse para a empresa</button>
+      <button class="suggestion-btn">🔧 Dúvidas sobre suporte técnico</button>
+
+      <div style="margin-top: auto; padding-top: 16px; border-top: 1px solid #222;">
+        <div style="font-size:11px; color:#555; line-height:1.6;">
+          O Concierge pode ajudar com escolha de produto, dúvidas de contrato, comparação de modelos e qualificação para empresas.
+        </div>
+        <div class="note" style="margin-top:8px; background:#1a1a1a; border-color:#333; color:#aaa">Sidebar com sugestões reduz friction — usuário não precisa saber o que perguntar</div>
+      </div>
+    </div>
+
+    <!-- Chat main -->
+    <div class="concierge-main">
+      <div class="concierge-chat-header">
+        <div class="ai-avatar">A</div>
+        <div>
+          <div class="ai-name">Concierge Acer</div>
+          <div class="ai-status">● Online agora</div>
+        </div>
+      </div>
+
+      <div class="chat-messages">
+        <!-- AI greeting -->
+        <div class="msg-row">
+          <div class="msg-avatar ai">A</div>
+          <div>
+            <div class="msg-bubble ai">
+              Olá! 👋 Sou o Concierge da Acer. Estou aqui para te ajudar a encontrar o produto ideal e tirar todas as dúvidas sobre nossa assinatura.<br><br>
+              Para começar — <strong>qual é o seu principal uso com o computador?</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- User reply -->
+        <div class="msg-row user">
+          <div class="msg-avatar">U</div>
+          <div class="msg-bubble user">Trabalho remoto, muita videochamada e às vezes edito foto</div>
+        </div>
+
+        <!-- AI response with product cards -->
+        <div class="msg-row">
+          <div class="msg-avatar ai">A</div>
+          <div>
+            <div class="msg-bubble ai">
+              Perfeito! Para esse perfil, você precisa de um processador robusto, boa câmera e tela com boa cobertura de cores para edição de foto.<br><br>
+              Separei <strong>3 opções</strong> que se encaixam bem:
+            </div>
+            <div class="product-suggestions">
+              <div class="prod-suggest-card" onclick="showScreen('product')">
+                <div class="img-ph prod-suggest-img">[ Swift 3 ]</div>
+                <div class="prod-suggest-info">
+                  <div class="prod-suggest-name">Swift 3 · Recomendado</div>
+                  <div class="prod-suggest-price">R$ 249/mês</div>
+                </div>
+              </div>
+              <div class="prod-suggest-card" onclick="showScreen('product')">
+                <div class="img-ph prod-suggest-img">[ Aspire 5 ]</div>
+                <div class="prod-suggest-info">
+                  <div class="prod-suggest-name">Aspire 5 · Econômico</div>
+                  <div class="prod-suggest-price">R$ 189/mês</div>
+                </div>
+              </div>
+              <div class="prod-suggest-card" onclick="showScreen('product')">
+                <div class="img-ph prod-suggest-img">[ ConceptD ]</div>
+                <div class="prod-suggest-info">
+                  <div class="prod-suggest-name">ConceptD 3 · Pro</div>
+                  <div class="prod-suggest-price">R$ 459/mês</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- User -->
+        <div class="msg-row user">
+          <div class="msg-avatar">U</div>
+          <div class="msg-bubble user">E como funciona o pagamento? Tenho que pagar tudo de uma vez?</div>
+        </div>
+
+        <!-- AI explains -->
+        <div class="msg-row">
+          <div class="msg-avatar ai">A</div>
+          <div class="msg-bubble ai">
+            Não! A cobrança é <strong>100% mensal</strong>. Você paga R$ 249,00 por mês, durante 24 meses.<br><br>
+            O que acontece é que o <strong>limite total do contrato é reservado no seu cartão</strong> — isso é uma exigência do banco para garantir a assinatura. Mas a cobrança efetiva continua sendo mensal.<br><br>
+            Posso mostrar um exemplo de como fica na fatura?
+          </div>
+        </div>
+
+        <div class="note" style="align-self:center">Fluxo do Concierge deve cobrir: escolha → dúvidas de pagamento → qualificação → handoff para checkout</div>
+      </div>
+
+      <!-- Input -->
+      <div class="chat-bottom">
+        <div class="chat-input-full">
+          <input type="text" placeholder="Digite sua pergunta...">
+          <button>Enviar →</button>
+        </div>
+        <div class="chat-tags">
+          <div class="chat-tag">Como funciona a entrega?</div>
+          <div class="chat-tag">Posso cancelar?</div>
+          <div class="chat-tag">Quero assinar agora</div>
+          <div class="chat-tag">Tenho interesse B2B</div>
+        </div>
+        <div class="note" style="margin-top:8px">Quick replies no rodapé do chat reduzem esforço e guiam o usuário para os próximos passos</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     SCREEN 9: B2B ENTRY
+══════════════════════════════════ -->
+<div class="screen" id="screen-b2b">
+  <nav class="wf-nav" style="background:#111; border-bottom:2px solid #333;">
+    <div class="wf-logo" style="border-color:#444; color:#fff">ACER</div>
+    <div class="wf-nav-links" style="color:#aaa">
+      <a style="color:#aaa">Para Empresas</a>
+      <a style="color:#aaa">Soluções</a>
+      <a style="color:#aaa">Casos de uso</a>
+    </div>
+    <div class="wf-nav-cta">
+      <button class="btn-ghost" style="color:#aaa; border-color:#444" onclick="showScreen('home')">← Área PF</button>
+      <button class="btn-primary">Falar com especialista</button>
+    </div>
+  </nav>
+
+  <div class="b2b-hero">
+    <div class="b2b-inner">
+      <div>
+        <div class="b2b-eyebrow">Acer para Empresas</div>
+        <h1 class="b2b-h1">Tecnologia Acer para toda a sua equipe. Sem imobilizar capital.</h1>
+        <p class="b2b-sub">Notebooks, desktops e monitores por assinatura. Gestão de parque simplificada, renovação programada e suporte dedicado.</p>
+        <div style="display:flex; gap:12px;">
+          <button class="btn-primary" style="padding:14px 28px; font-size:15px;">Solicitar proposta</button>
+          <button class="btn-outline" style="border-color:#555; color:#aaa; padding:14px 28px;">Ver casos de uso</button>
+        </div>
+        <div class="note" style="margin-top:16px; background:#1a1a1a; border-color:#333; color:#888">B2B: captura de lead primeiro, não conversão direta — jornada mais longa</div>
+      </div>
+
+      <!-- Lead form -->
+      <div class="b2b-form">
+        <div class="b2b-form-title">Receba uma proposta personalizada</div>
+        <div class="form-group">
+          <label class="form-label">Nome completo</label>
+          <input class="form-input" placeholder="Seu nome">
+        </div>
+        <div class="form-group">
+          <label class="form-label">E-mail corporativo</label>
+          <input class="form-input" placeholder="nome@empresa.com.br">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Empresa</label>
+          <input class="form-input" placeholder="Nome da empresa">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Qtd. equipamentos</label>
+            <select class="form-input">
+              <option>1 a 10</option>
+              <option>11 a 50</option>
+              <option>51 a 200</option>
+              <option>200+</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Tipo de produto</label>
+            <select class="form-input">
+              <option>Notebooks</option>
+              <option>Desktops</option>
+              <option>Monitores</option>
+              <option>Kit completo</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Necessidade / contexto</label>
+          <input class="form-input" placeholder="Ex: renovar parque de TI, home office, projeto temporário...">
+        </div>
+        <button class="btn-primary" style="width:100%; padding:14px; font-size:15px">Quero receber proposta →</button>
+        <div class="note" style="margin-top:8px">Form de qualificação — perguntas definem o perfil para o comercial</div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="b2b-stats" style="background:transparent; padding:40px 0 0; max-width:none;">
+      <div class="b2b-stat">
+        <div class="b2b-stat-num">+2.400</div>
+        <div class="b2b-stat-label">Equipamentos locados</div>
+      </div>
+      <div class="b2b-stat">
+        <div class="b2b-stat-num">48h</div>
+        <div class="b2b-stat-label">Tempo médio de entrega</div>
+      </div>
+      <div class="b2b-stat">
+        <div class="b2b-stat-num">98%</div>
+        <div class="b2b-stat-label">Satisfação com suporte</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Use cases -->
+  <div class="b2b-use-cases">
+    <div style="max-width:1200px; margin:0 auto;">
+      <div class="section-label">Casos de uso</div>
+      <h2 style="font-size:28px; font-weight:800;">Para quem é a solução B2B?</h2>
+    </div>
+    <div class="use-case-grid">
+      <div class="use-case">
+        <div class="use-case-icon"></div>
+        <div class="use-case-title">Projetos temporários</div>
+        <div class="use-case-desc">Equipes montadas para projetos específicos. Equipamentos pelo tempo certo, sem compra e revenda.</div>
+      </div>
+      <div class="use-case">
+        <div class="use-case-icon"></div>
+        <div class="use-case-title">Renovação de parque</div>
+        <div class="use-case-desc">Substitua equipamentos defasados sem o desembolso de compra. Parque sempre atualizado.</div>
+      </div>
+      <div class="use-case">
+        <div class="use-case-icon"></div>
+        <div class="use-case-title">Home office escalonável</div>
+        <div class="use-case-desc">Equipes remotas crescendo rápido. Equipamento para cada colaborador, sem burocracia de compra.</div>
+      </div>
+    </div>
+    <div style="max-width:1200px; margin:32px auto 0; text-align:center;">
+      <div class="note">B2B no roadmap — esta tela é entry point. Portal completo de gestão de parque vem em fase 2.</div>
+    </div>
+  </div>
+
+  <footer class="wf-footer">
+    <div>© 2025 Acer Inc. — Soluções B2B</div>
+    <div onclick="showScreen('home')" style="cursor:pointer; color:#555">← Voltar para área PF</div>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════ -->
+<script>
+  function showScreen(name) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.sw-btn').forEach(b => b.classList.remove('active'));
+
+    const screenEl = document.getElementById('screen-' + name);
+    if (screenEl) screenEl.classList.add('active');
+
+    const screenMap = {
+      home: 0, catalog: 1, product: 2,
+      checkout1: 3, checkout2: 4, checkout3: 5, checkout4: 6,
+      concierge: 7, b2b: 8
+    };
+    const btns = document.querySelectorAll('.sw-btn');
+    if (screenMap[name] !== undefined && btns[screenMap[name]]) {
+      btns[screenMap[name]].classList.add('active');
+    }
+
+    window.scrollTo(0, 0);
+  }
+</script>
+
+</body>
+</html>
