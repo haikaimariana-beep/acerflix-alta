@@ -414,6 +414,168 @@ a{text-decoration:none;color:inherit;}
 .footer-links{display:flex;gap:20px;}
 .footer-b2b{color:rgba(131,184,26,.7);cursor:pointer;display:flex;align-items:center;gap:4px;}
 .footer-b2b:hover{color:var(--green);}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE — Tablet ≤1024px
+═══════════════════════════════════════════ */
+@media(max-width:1024px){
+  .nav{padding:0 24px;}
+  .nav-links{gap:18px;}
+  .nav-link{font-size:13px;}
+
+  .hero-inner{padding:60px 24px;gap:40px;}
+  .hero-h1{font-size:36px;}
+
+  .benefits-grid{grid-template-columns:repeat(2,1fr);}
+  .benefit-item:nth-child(2){border-right:none;}
+  .benefit-item:nth-child(3){border-top:1px solid #333;}
+  .benefit-item:nth-child(4){border-top:1px solid #333;border-right:none;}
+
+  .how-steps{grid-template-columns:repeat(2,1fr);}
+
+  .prod-grid-home{grid-template-columns:repeat(2,1fr);}
+
+  .concierge-inner{grid-template-columns:1fr;gap:40px;}
+
+  .catalog-grid{grid-template-columns:repeat(3,1fr);}
+
+  .product-main{padding:32px 24px;gap:40px;grid-template-columns:1fr 380px;}
+
+  .checkout-shell{grid-template-columns:1fr 320px;}
+
+  .b2b-inner{gap:40px;}
+  .b2b-h1{font-size:36px;}
+  .b2b-stats{padding:32px 24px;}
+
+  .compare-section-inner{overflow-x:auto;}
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE — Mobile ≤768px
+═══════════════════════════════════════════ */
+@media(max-width:768px){
+  /* Nav */
+  .nav{padding:0 16px;height:56px;top:0;}
+  .nav-links{display:none;}
+  .nav-actions .btn{display:none;}
+  .nav-actions .btn:last-child{display:inline-flex;padding:8px 14px;font-size:13px;}
+
+  /* Switcher */
+  .switcher{padding:8px 12px;gap:4px;top:0;}
+  .sw-btn{font-size:10px;padding:4px 8px;}
+
+  /* Hero */
+  .hero{min-height:auto;}
+  .hero-inner{grid-template-columns:1fr;padding:40px 20px;gap:0;}
+  .hero-inner{grid-template-columns:1fr;}
+  .hero-img-wrap{order:-1;margin-bottom:0;}
+  .hero-img-wrap img{height:220px !important;transform:none !important;}
+  .hero-img-ph{height:220px;}
+  .hero-h1{font-size:30px;margin-bottom:12px;}
+  .hero-sub{font-size:15px;margin-bottom:24px;}
+  .hero-ctas{flex-direction:column;align-items:stretch;}
+  .hero-ctas .btn{width:100%;justify-content:center;}
+  .hero-trust{gap:12px;}
+
+  /* Benefits */
+  .benefits-grid{grid-template-columns:1fr 1fr;}
+  .benefit-item{padding:16px;}
+  .benefit-item:nth-child(2){border-right:none;}
+  .benefit-item:nth-child(3){border-top:1px solid #333;}
+  .benefit-item:nth-child(4){border-top:1px solid #333;border-right:none;}
+
+  /* Section padding */
+  .section{padding:48px 20px;}
+  .section-title{font-size:26px;}
+
+  /* How steps */
+  .how-steps{grid-template-columns:1fr 1fr;gap:2px;}
+  .how-step{padding:24px 16px;}
+  .step-num{font-size:40px;}
+
+  /* Product grid home */
+  .prod-grid-home{grid-template-columns:1fr;}
+
+  /* Concierge */
+  .concierge-inner{grid-template-columns:1fr;gap:32px;}
+  .concierge-section{padding:48px 20px;}
+
+  /* Catalog */
+  .catalog-header{padding:24px 20px 0;}
+  .catalog-body{padding:20px;}
+  .catalog-grid{grid-template-columns:1fr 1fr;gap:12px;}
+  .cat-tabs{overflow-x:auto;padding-bottom:4px;}
+  .cat-tab{white-space:nowrap;font-size:13px;padding:10px 14px;}
+
+  /* Breadcrumb */
+  .breadcrumb{padding:12px 16px;font-size:12px;}
+
+  /* Product page */
+  .product-main{grid-template-columns:1fr;padding:20px 16px;gap:28px;}
+  .product-main-img-wrap{height:260px;}
+  .product-title{font-size:26px;}
+  .price-box-value{font-size:38px;}
+  .plan-options{grid-template-columns:repeat(3,1fr);}
+
+  /* Compare */
+  .compare-section{padding:32px 16px;overflow-x:auto;}
+  .compare-table{min-width:520px;}
+  .compare-section-inner{overflow-x:auto;}
+
+  /* Checkout */
+  .checkout-shell{grid-template-columns:1fr;grid-template-rows:auto;}
+  .checkout-summary{border-left:none;border-top:2px solid var(--gray-200);order:2;}
+  .checkout-form-area{order:1;}
+  .checkout-form{padding:24px 16px;}
+  .checkout-title{font-size:22px;}
+  .progress-steps{gap:0;}
+  .prog-label{font-size:10px;}
+
+  /* Credit box */
+  .credit-box{padding:16px;}
+  .credit-highlight{font-size:18px;}
+
+  /* Contract */
+  .contract-box{height:200px;}
+
+  /* Confirm */
+  .confirm-content{padding:40px 20px;}
+  .confirm-title{font-size:28px;}
+
+  /* Concierge full */
+  .concierge-page{grid-template-columns:1fr;}
+  .concierge-sidebar{display:none;}
+  .chat-messages{padding:16px;}
+  .msg-bubble{max-width:85%;font-size:13px;}
+
+  /* B2B */
+  .b2b-hero{padding:48px 20px;}
+  .b2b-inner{grid-template-columns:1fr;gap:32px;}
+  .b2b-h1{font-size:28px;}
+  .b2b-stats{grid-template-columns:1fr;padding:24px 20px;gap:12px;}
+  .b2b-usecases{padding:40px 20px;}
+  .use-case-grid{grid-template-columns:1fr;}
+
+  /* Footer */
+  .footer{flex-direction:column;gap:16px;text-align:center;padding:24px 20px;}
+  .footer-links{flex-wrap:wrap;justify-content:center;gap:12px;}
+
+  /* Utils */
+  .btn-lg{padding:14px 20px;font-size:14px;}
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE — Mobile pequeno ≤480px
+═══════════════════════════════════════════ */
+@media(max-width:480px){
+  .hero-h1{font-size:26px;}
+  .catalog-grid{grid-template-columns:1fr;}
+  .how-steps{grid-template-columns:1fr;}
+  .benefits-grid{grid-template-columns:1fr;}
+  .benefit-item{border-right:none !important;border-top:1px solid #333;}
+  .benefit-item:first-child{border-top:none;}
+  .prod-card-img-wrap{height:160px;}
+}
 </style>
 </head>
 <body>
@@ -1508,6 +1670,51 @@ a{text-decoration:none;color:inherit;}
 </div>
 
 <script>
+// ── Plan selector ──
+const plans = {
+  18: { price: 299, total: 5382, label: 'dezoito' },
+  24: { price: 249, total: 5976, label: 'vinte e quatro' },
+  36: { price: 199, total: 7164, label: 'trinta e seis' }
+};
+let selectedPlan = 24;
+
+function selectPlan(months) {
+  selectedPlan = months;
+  const p = plans[months];
+  [18,24,36].forEach(m => {
+    const el = document.getElementById('plan-' + m);
+    if (el) el.classList.toggle('active', m === months);
+  });
+  const set = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = val; };
+  const setHTML = (id, val) => { const el = document.getElementById(id); if(el) el.innerHTML = val; };
+  const fmt = n => n.toLocaleString('pt-BR');
+  const fmtR = n => 'R$ ' + n.toFixed(2).replace('.', ',');
+
+  // Product page
+  set('pd-price', 'R$ ' + p.price);
+  set('pd-sub', 'Contrato de ' + months + ' meses · Total R$ ' + fmt(p.total));
+  setHTML('pd-info', 'O limite de <strong>R$ ' + fmt(p.total) + '</strong> é reservado no seu cartão no momento da aprovação. A cobrança é feita mensalmente no valor de R$ ' + p.price + '.');
+  const cta = document.getElementById('pd-cta');
+  if(cta) cta.textContent = 'Assinar por R$ ' + p.price + '/mês';
+
+  // Checkout summary rows
+  set('co-price', fmtR(p.price));
+  set('co-prazo', months + ' meses');
+  document.querySelectorAll('.summary-row.total span:last-child').forEach(el => el.textContent = 'R$ ' + fmt(p.total) + ',00');
+
+  // Credit box
+  set('co-credit-highlight', 'R$ ' + p.price + '/mês · ' + months + ' meses = R$ ' + fmt(p.total) + ' reservados');
+
+  // Contract text
+  set('ct-prazo', 'período de ' + months + ' (' + p.label + ') meses');
+  set('ct-price', fmtR(p.price));
+  set('ct-total', 'R$ ' + fmt(p.total) + ',00');
+  set('ct-price2', fmtR(p.price));
+  set('ct-label-total', 'R$ ' + fmt(p.total) + ',00');
+  set('ct-label-price', fmtR(p.price));
+}
+
+// ── Screen navigation ──
 function show(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.sw-btn').forEach(b => b.classList.remove('active'));
