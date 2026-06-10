@@ -239,6 +239,17 @@ a{text-decoration:none;color:inherit;}
 .price-box-value{font-size:48px;font-weight:900;color:var(--dark);letter-spacing:-2px;}
 .price-box-mo{font-size:18px;color:var(--gray-500);font-weight:400;}
 .price-box-sub{font-size:13px;color:var(--gray-500);margin-top:8px;}
+.plan-selector{margin-bottom:20px;}
+.plan-selector-label{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray-400);margin-bottom:10px;}
+.plan-options{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.plan-opt{border:2px solid var(--gray-200);border-radius:var(--radius);padding:12px 8px;text-align:center;cursor:pointer;transition:all .2s;background:#fff;}
+.plan-opt:hover{border-color:var(--green);background:var(--green-light);}
+.plan-opt.active{border-color:var(--green);background:var(--green-light);}
+.plan-opt-months{font-size:20px;font-weight:900;color:var(--dark);line-height:1;}
+.plan-opt-label{font-size:10px;color:var(--gray-500);margin-top:2px;}
+.plan-opt-price{font-size:12px;font-weight:600;color:var(--green);margin-top:6px;}
+.plan-opt.active .plan-opt-months{color:var(--green-dark);}
+
 .price-info-row{display:flex;align-items:flex-start;gap:8px;margin-top:14px;padding-top:14px;border-top:1px solid rgba(131,184,26,.2);font-size:12px;color:var(--gray-600);line-height:1.5;}
 .info-badge{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--green);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--green);flex-shrink:0;cursor:pointer;}
 .specs-list{display:flex;flex-direction:column;gap:0;}
@@ -500,7 +511,7 @@ a{text-decoration:none;color:inherit;}
         <div class="benefit-icon-wrap"><span class="material-symbols-outlined ms-icon-benefit">calendar_month</span></div>
         <div>
           <div class="benefit-title">Parcela previsível</div>
-          <div class="benefit-desc">Valor fixo por 24 meses. Sem surpresas no bolso.</div>
+          <div class="benefit-desc">Valor fixo por todo o contrato. Sem surpresas no bolso.</div>
         </div>
       </div>
       <div class="benefit-item">
@@ -543,7 +554,7 @@ a{text-decoration:none;color:inherit;}
       <div class="how-step">
         <div class="step-num">03</div>
         <div class="step-title">Informe o cartão</div>
-        <div class="step-desc">O limite das 24 parcelas é reservado no cartão. A cobrança é feita mensalmente.</div>
+        <div class="step-desc">O limite total do contrato é reservado no cartão. A cobrança é feita mensalmente.</div>
         <div class="step-tag">Cobrança mensal</div>
       </div>
       <div class="how-step">
@@ -871,16 +882,38 @@ a{text-decoration:none;color:inherit;}
           <div class="product-uso-tag" style="margin-top:10px"><span class="material-symbols-outlined ms-icon-sm">home_work</span> Ideal para: Home Office e Produtividade</div>
         </div>
 
+        <!-- Plan Selector -->
+        <div class="plan-selector">
+          <div class="plan-selector-label">Escolha o prazo</div>
+          <div class="plan-options">
+            <div class="plan-opt" id="plan-18" onclick="selectPlan(18)">
+              <div class="plan-opt-months">18</div>
+              <div class="plan-opt-label">meses</div>
+              <div class="plan-opt-price">R$ 299/mês</div>
+            </div>
+            <div class="plan-opt active" id="plan-24" onclick="selectPlan(24)">
+              <div class="plan-opt-months">24</div>
+              <div class="plan-opt-label">meses</div>
+              <div class="plan-opt-price">R$ 249/mês</div>
+            </div>
+            <div class="plan-opt" id="plan-36" onclick="selectPlan(36)">
+              <div class="plan-opt-months">36</div>
+              <div class="plan-opt-label">meses</div>
+              <div class="plan-opt-price">R$ 199/mês</div>
+            </div>
+          </div>
+        </div>
+
         <div class="price-box">
           <div class="price-box-label">Mensalidade</div>
           <div class="price-box-main">
-            <div class="price-box-value">R$ 249</div>
+            <div class="price-box-value" id="pd-price">R$ 249</div>
             <div class="price-box-mo">/mês</div>
           </div>
-          <div class="price-box-sub">Contrato de 24 meses · Total R$ 5.976</div>
+          <div class="price-box-sub" id="pd-sub">Contrato de 24 meses · Total R$ 5.976</div>
           <div class="price-info-row">
             <div class="info-badge">i</div>
-            <span>O limite de <strong>R$ 5.976</strong> é reservado no seu cartão no momento da aprovação. A cobrança é feita mensalmente no valor de R$ 249.</span>
+            <span id="pd-info">O limite de <strong>R$ 5.976</strong> é reservado no seu cartão no momento da aprovação. A cobrança é feita mensalmente no valor de R$ 249.</span>
           </div>
         </div>
 
@@ -908,7 +941,7 @@ a{text-decoration:none;color:inherit;}
         </div>
 
         <div class="product-ctas">
-          <button class="btn btn-green btn-lg btn-full" onclick="show('co1')">Assinar por R$ 249/mês</button>
+          <button class="btn btn-green btn-lg btn-full" id="pd-cta" onclick="show('co1')">Assinar por R$ 249/mês</button>
           <button class="btn btn-ghost btn-lg btn-full" onclick="show('concierge')">
             <span class="material-symbols-outlined ms-icon">smart_toy</span>
             Tenho dúvidas — falar com a IA
@@ -1020,8 +1053,8 @@ a{text-decoration:none;color:inherit;}
         <div class="summary-name">Acer Swift 3 SF314-512</div>
         <div class="summary-spec">Intel i7 · 16GB · 512GB · 14" 2K</div>
         <div class="summary-rows">
-          <div class="summary-row"><span>Mensalidade</span><span>R$ 249,00</span></div>
-          <div class="summary-row"><span>Prazo</span><span>24 meses</span></div>
+          <div class="summary-row"><span>Mensalidade</span><span id="co-price">R$ 249,00</span></div>
+          <div class="summary-row"><span>Prazo</span><span id="co-prazo">24 meses</span></div>
           <div class="summary-row"><span>Entrega</span><span style="color:var(--green)">Grátis</span></div>
           <div class="summary-row total"><span>Total contrato</span><span>R$ 5.976,00</span></div>
         </div>
@@ -1064,7 +1097,7 @@ a{text-decoration:none;color:inherit;}
           Como funciona o pagamento?
         </div>
         <div class="credit-box-text">Para garantir o produto, o limite total do contrato é reservado no cartão no momento da aprovação. Isso não significa que você será cobrado à vista — a cobrança acontece todo mês, no valor da mensalidade.</div>
-        <div class="credit-highlight">R$ 249/mês · 24 meses = R$ 5.976 reservados</div>
+        <div class="credit-highlight" id="co-credit-highlight">R$ 249/mês · 24 meses = R$ 5.976 reservados</div>
         <div style="font-size:12px;color:var(--gray-600)">O cartão precisa ter limite disponível de R$ 5.976</div>
       </div>
 
@@ -1157,9 +1190,9 @@ a{text-decoration:none;color:inherit;}
         <h4>CONTRATO DE LOCAÇÃO E ASSINATURA DE EQUIPAMENTO ACER</h4>
         <p>Este contrato é firmado entre <strong>Acer Brasil</strong> ("Locadora") e o assinante identificado no cadastro ("Locatário"), nas condições abaixo descritas.</p>
         <h4>1. OBJETO</h4>
-        <p>A Locadora disponibiliza ao Locatário, em regime de assinatura, o equipamento Acer Swift 3 SF314-512 (Intel Core i7 / 16GB / 512GB SSD / 14" 2K), pelo período de 24 (vinte e quatro) meses, mediante pagamento mensal de R$ 249,00.</p>
+        <p>A Locadora disponibiliza ao Locatário, em regime de assinatura, o equipamento Acer Swift 3 SF314-512 (Intel Core i7 / 16GB / 512GB SSD / 14" 2K), pelo <span id="ct-prazo">período de 24 (vinte e quatro) meses</span>, mediante pagamento mensal de <span id="ct-price">R$ 249,00</span>.</p>
         <h4>2. PAGAMENTO E RESERVA DE LIMITE</h4>
-        <p>O valor total do contrato de R$ 5.976,00 será reservado no cartão de crédito do Locatário no momento da aprovação. A cobrança efetiva ocorrerá mensalmente no valor de R$ 249,00. A reserva de limite visa garantir a disponibilidade financeira durante todo o período contratual.</p>
+        <p>O valor total do contrato de <span id="ct-total">R$ 5.976,00</span> será reservado no cartão de crédito do Locatário no momento da aprovação. A cobrança efetiva ocorrerá mensalmente no valor de <span id="ct-price2">R$ 249,00</span>. A reserva de limite visa garantir a disponibilidade financeira durante todo o período contratual.</p>
         <h4>3. OBRIGAÇÕES DA LOCADORA</h4>
         <p>Fornecer o equipamento novo, lacrado, com nota fiscal. Oferecer suporte técnico durante a vigência. Garantir a qualidade e funcionamento do produto conforme especificações.</p>
         <h4>4. OBRIGAÇÕES DO LOCATÁRIO</h4>
@@ -1172,7 +1205,7 @@ a{text-decoration:none;color:inherit;}
 
       <div class="checkbox-row">
         <input type="checkbox" id="ck1">
-        <label for="ck1">Li e concordo com os termos do Contrato de Assinatura Acer, incluindo a reserva de limite de R$ 5.976,00 no meu cartão de crédito e a cobrança mensal de R$ 249,00.</label>
+        <label for="ck1">Li e concordo com os termos do Contrato de Assinatura Acer, incluindo a reserva de limite de <span id="ct-label-total">R$ 5.976,00</span> no meu cartão de crédito e a cobrança mensal de <span id="ct-label-price">R$ 249,00</span>.</label>
       </div>
       <div class="checkbox-row">
         <input type="checkbox" id="ck2">
