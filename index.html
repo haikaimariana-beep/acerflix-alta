@@ -576,6 +576,200 @@ a{text-decoration:none;color:inherit;}
   .benefit-item:first-child{border-top:none;}
   .prod-card-img-wrap{height:160px;}
 }
+
+/* ══════════════════════════════════════════
+   MISSING STATES — FORM VALIDATION
+══════════════════════════════════════════ */
+.form-label .req { color: #e53e3e; margin-left: 2px; }
+.form-input.error { border-color: #e53e3e !important; background: #fff5f5; }
+.form-input.success { border-color: var(--green) !important; background: #f0f7e0; }
+.field-error { display: none; font-size: 12px; color: #e53e3e; margin-top: 4px; font-weight: 500; }
+.field-error.show { display: block; }
+.field-success { display: none; font-size: 12px; color: #389016; margin-top: 4px; font-weight: 500; }
+.field-success.show { display: block; }
+
+/* Disabled button */
+.btn:disabled, .btn[disabled] {
+  opacity: .4; cursor: not-allowed; pointer-events: none;
+}
+.btn-green:disabled { background: var(--gray-300); border-color: var(--gray-300); color: var(--gray-500); }
+
+/* ══════════════════════════════════════════
+   TOAST SYSTEM
+══════════════════════════════════════════ */
+#toast-container {
+  position: fixed; bottom: 32px; right: 32px;
+  z-index: 99999; display: flex; flex-direction: column; gap: 10px;
+  pointer-events: none;
+}
+.toast {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--dark); color: #fff; padding: 14px 20px;
+  border-radius: 10px; font-size: 14px; font-weight: 500;
+  box-shadow: 0 8px 32px rgba(0,0,0,.22); min-width: 280px; max-width: 380px;
+  pointer-events: all; opacity: 0; transform: translateY(16px);
+  transition: opacity .25s, transform .25s;
+}
+.toast.show { opacity: 1; transform: none; }
+.toast.toast-success { border-left: 4px solid var(--green); }
+.toast.toast-error   { border-left: 4px solid #e53e3e; }
+.toast.toast-info    { border-left: 4px solid #4299e1; }
+.toast.toast-warn    { border-left: 4px solid #f6ad55; }
+.toast-icon { font-size: 20px; flex-shrink: 0; }
+.toast-success .toast-icon { color: var(--green); }
+.toast-error   .toast-icon { color: #e53e3e; }
+.toast-info    .toast-icon { color: #4299e1; }
+.toast-warn    .toast-icon { color: #f6ad55; }
+
+/* ══════════════════════════════════════════
+   LOADING / PROCESSING SCREEN
+══════════════════════════════════════════ */
+.processing-page {
+  min-height: 100vh; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  background: var(--gray-50); text-align: center; padding: 48px 24px;
+}
+.spinner-ring {
+  width: 72px; height: 72px; border-radius: 50%;
+  border: 5px solid var(--gray-200);
+  border-top-color: var(--green);
+  animation: spin .9s linear infinite;
+  margin: 0 auto 32px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.processing-title { font-size: 26px; font-weight: 800; letter-spacing: -.5px; margin-bottom: 12px; }
+.processing-sub { font-size: 15px; color: var(--gray-500); max-width: 400px; line-height: 1.6; }
+.processing-steps { margin-top: 40px; display: flex; flex-direction: column; gap: 12px; max-width: 360px; }
+.proc-step { display: flex; align-items: center; gap: 14px; padding: 14px 18px; background: #fff;
+  border-radius: var(--radius-lg); border: 1.5px solid var(--gray-200); text-align: left; font-size: 14px; }
+.proc-step.active { border-color: var(--green); background: var(--green-light); }
+.proc-step.done { border-color: var(--green); color: var(--gray-500); }
+.proc-step-icon { font-size: 20px; flex-shrink: 0; color: var(--gray-300); }
+.proc-step.active .proc-step-icon { color: var(--green); }
+.proc-step.done   .proc-step-icon { color: var(--green); }
+
+/* ══════════════════════════════════════════
+   ERROR SCREENS (DECLINED, LIMIT, CREDIT)
+══════════════════════════════════════════ */
+.error-page {
+  min-height: 100vh; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  background: var(--gray-50); text-align: center; padding: 48px 24px;
+}
+.error-icon-wrap {
+  width: 88px; height: 88px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 28px; font-size: 40px;
+}
+.error-icon-wrap.red   { background: #fff5f5; color: #e53e3e; }
+.error-icon-wrap.amber { background: #fffaf0; color: #dd6b20; }
+.error-icon-wrap.blue  { background: #ebf8ff; color: #3182ce; }
+.error-title { font-size: 26px; font-weight: 800; letter-spacing: -.5px; margin-bottom: 12px; color: var(--dark); }
+.error-sub { font-size: 15px; color: var(--gray-500); max-width: 420px; line-height: 1.6; margin: 0 auto 32px; }
+.error-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 8px; }
+.error-detail-box {
+  background: #fff; border: 1.5px solid var(--gray-200); border-radius: var(--radius-lg);
+  padding: 20px 28px; max-width: 400px; margin: 0 auto 32px; text-align: left;
+  font-size: 14px; line-height: 1.7;
+}
+.error-detail-box strong { color: var(--dark); }
+.error-detail-box p { color: var(--gray-500); margin-bottom: 6px; }
+.error-detail-box p:last-child { margin-bottom: 0; }
+
+/* Credit pending */
+.pending-page {
+  min-height: 100vh; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  background: var(--gray-50); text-align: center; padding: 48px 24px;
+}
+.pending-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: #fffaf0; color: #dd6b20; border: 1.5px solid #f6ad55;
+  border-radius: 20px; padding: 6px 16px; font-size: 13px; font-weight: 700;
+  margin-bottom: 24px;
+}
+.pending-badge .dot { width: 8px; height: 8px; border-radius: 50%; background: #dd6b20;
+  animation: blink 1.2s ease-in-out infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+.timeline { display: flex; flex-direction: column; gap: 0; max-width: 380px; margin: 32px auto 0; }
+.timeline-item { display: flex; gap: 16px; text-align: left; }
+.tl-left { display: flex; flex-direction: column; align-items: center; }
+.tl-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--gray-200); flex-shrink: 0; margin-top: 2px; }
+.tl-dot.done { background: var(--green); }
+.tl-dot.active { background: #dd6b20; box-shadow: 0 0 0 4px rgba(221,107,32,.2); }
+.tl-line { width: 2px; flex: 1; background: var(--gray-200); min-height: 32px; }
+.tl-line.done { background: var(--green); }
+.tl-content { padding-bottom: 24px; }
+.tl-label { font-size: 14px; font-weight: 600; color: var(--dark); }
+.tl-desc  { font-size: 13px; color: var(--gray-500); margin-top: 2px; }
+
+/* ══════════════════════════════════════════
+   CONTRACT SCROLL LOCK
+══════════════════════════════════════════ */
+.contract-scroll-hint {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px; color: var(--gray-500); margin-bottom: 10px;
+  background: var(--gray-50); border: 1px solid var(--gray-200);
+  border-radius: var(--radius); padding: 8px 12px;
+}
+.contract-scroll-hint .material-symbols-outlined { font-size: 16px; color: var(--gray-400); }
+.contract-box-locked { opacity: .5; user-select: none; pointer-events: none; transition: opacity .3s; }
+.contract-box-locked.unlocked { opacity: 1; user-select: auto; pointer-events: auto; }
+.scroll-progress-bar {
+  height: 4px; background: var(--gray-200); border-radius: 2px; margin-bottom: 8px; overflow: hidden;
+}
+.scroll-progress-fill { height: 100%; background: var(--green); width: 0%; transition: width .2s; }
+.contract-box-wrap { position: relative; }
+.contract-read-badge {
+  display: none; align-items: center; gap: 6px;
+  color: var(--green); font-size: 12px; font-weight: 700; margin-bottom: 10px;
+}
+.contract-read-badge.show { display: flex; }
+
+/* ══════════════════════════════════════════
+   CATALOG EMPTY STATE
+══════════════════════════════════════════ */
+.catalog-empty {
+  display: none; flex-direction: column; align-items: center; justify-content: center;
+  padding: 80px 24px; text-align: center; grid-column: 1 / -1;
+}
+.catalog-empty.show { display: flex; }
+.catalog-empty-icon { font-size: 64px; color: var(--gray-200); margin-bottom: 20px; }
+.catalog-empty h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+.catalog-empty p { font-size: 14px; color: var(--gray-500); max-width: 320px; margin-bottom: 24px; }
+
+/* ══════════════════════════════════════════
+   SKELETON LOADING
+══════════════════════════════════════════ */
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.4s infinite linear;
+  border-radius: var(--radius);
+}
+.skeleton-card {
+  background: #fff; border-radius: var(--radius-lg); border: 1.5px solid var(--gray-200);
+  overflow: hidden; padding: 0;
+}
+.skeleton-img  { width: 100%; height: 200px; }
+.skeleton-body { padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+.skeleton-line { height: 12px; border-radius: 6px; }
+.skeleton-line.short { width: 60%; }
+.skeleton-line.shorter { width: 40%; }
+.skeleton-line.price { height: 20px; width: 50%; }
+
+/* ══════════════════════════════════════════
+   VALIDATION FEEDBACK INLINE
+══════════════════════════════════════════ */
+.form-group.has-error .form-input { border-color: #e53e3e; background: #fff5f5; }
+.form-group.has-success .form-input { border-color: var(--green); background: #f0f7e0; }
+.form-group.has-error .field-error { display: block; }
+.form-group.has-success .field-success { display: block; }
+
 </style>
 </head>
 <body>
@@ -592,6 +786,12 @@ a{text-decoration:none;color:inherit;}
   <button class="sw-btn" onclick="show('co4')">⑦ Confirmação</button>
   <button class="sw-btn" onclick="show('concierge')">⑧ AI Concierge</button>
   <button class="sw-btn" onclick="show('b2b')">⑨ B2B Entry</button>
+  <span style="color:#333;margin-left:8px">|</span>
+  <button class="sw-btn" onclick="show('co-processing')" style="border-color:#4a9eff;color:#4a9eff">⟳ Processando</button>
+  <button class="sw-btn" onclick="show('co-declined')" style="border-color:#e53e3e;color:#e53e3e">✕ Recusado</button>
+  <button class="sw-btn" onclick="show('co-insufficient')" style="border-color:#f6ad55;color:#f6ad55">⚠ Limite</button>
+  <button class="sw-btn" onclick="show('co-credit-pending')" style="border-color:#f6ad55;color:#f6ad55">⏳ Análise</button>
+  <button class="sw-btn" onclick="show('co-credit-rejected')" style="border-color:#e53e3e;color:#e53e3e">✕ Reprovado</button>
   <span class="ver">AcerFlix HiFi v1.0</span>
 </div>
 
@@ -1180,31 +1380,69 @@ a{text-decoration:none;color:inherit;}
       <div class="checkout-sub">Precisamos de algumas informações para verificar seu cadastro.</div>
 
       <div class="form-row">
-        <div class="form-group"><label class="form-label">Nome completo</label><input class="form-input" type="text" placeholder="Como está no documento"></div>
-        <div class="form-group"><label class="form-label">CPF</label><input class="form-input" type="text" placeholder="000.000.000-00"></div>
+        <div class="form-group" id="fg-nome">
+          <label class="form-label">Nome completo <span class="req">*</span></label>
+          <input class="form-input" id="inp-nome" type="text" placeholder="Como está no documento" oninput="validateNome(this)">
+          <div class="field-error" id="err-nome">Por favor, informe seu nome completo.</div>
+        </div>
+        <div class="form-group" id="fg-cpf">
+          <label class="form-label">CPF <span class="req">*</span></label>
+          <input class="form-input" id="inp-cpf" type="text" placeholder="000.000.000-00" oninput="maskCPF(this)" maxlength="14">
+          <div class="field-error" id="err-cpf">CPF inválido. Verifique os números.</div>
+          <div class="field-success" id="ok-cpf">CPF válido ✓</div>
+        </div>
       </div>
       <div class="form-row">
-        <div class="form-group"><label class="form-label">E-mail</label><input class="form-input" type="email" placeholder="seu@email.com"></div>
-        <div class="form-group"><label class="form-label">Celular</label><input class="form-input" type="text" placeholder="(11) 9 0000-0000"></div>
+        <div class="form-group" id="fg-email">
+          <label class="form-label">E-mail <span class="req">*</span></label>
+          <input class="form-input" id="inp-email" type="email" placeholder="seu@email.com" oninput="validateEmail(this)">
+          <div class="field-error" id="err-email">Informe um e-mail válido.</div>
+          <div class="field-success" id="ok-email">E-mail válido ✓</div>
+        </div>
+        <div class="form-group" id="fg-tel">
+          <label class="form-label">Celular <span class="req">*</span></label>
+          <input class="form-input" id="inp-tel" type="text" placeholder="(11) 9 0000-0000" oninput="maskPhone(this)" maxlength="16">
+          <div class="field-error" id="err-tel">Informe um celular válido com DDD.</div>
+        </div>
       </div>
-      <div class="form-group" style="max-width:220px"><label class="form-label">Data de nascimento</label><input class="form-input" type="text" placeholder="DD/MM/AAAA"></div>
+      <div class="form-group" id="fg-nasc" style="max-width:220px">
+        <label class="form-label">Data de nascimento <span class="req">*</span></label>
+        <input class="form-input" id="inp-nasc" type="text" placeholder="DD/MM/AAAA" oninput="maskDate(this)" maxlength="10">
+        <div class="field-error" id="err-nasc">Data inválida. Use o formato DD/MM/AAAA.</div>
+      </div>
 
       <hr class="divider">
       <div style="font-size:16px;font-weight:700;margin-bottom:20px;">Endereço de entrega</div>
 
       <div class="form-row">
-        <div class="form-group"><label class="form-label">CEP</label><input class="form-input" type="text" placeholder="00000-000"></div>
-        <div class="form-group" style="display:flex;align-items:flex-end"><button class="btn btn-ghost btn-full" style="height:46px">Buscar endereço →</button></div>
+        <div class="form-group" id="fg-cep">
+          <label class="form-label">CEP <span class="req">*</span></label>
+          <input class="form-input" id="inp-cep" type="text" placeholder="00000-000" oninput="maskCEP(this)" maxlength="9">
+          <div class="field-error" id="err-cep">CEP inválido.</div>
+        </div>
+        <div class="form-group" style="display:flex;align-items:flex-end">
+          <button class="btn btn-ghost btn-full" style="height:46px" onclick="autofillAddress()">Buscar endereço →</button>
+        </div>
       </div>
-      <div class="form-group"><label class="form-label">Endereço</label><input class="form-input" type="text" placeholder="Rua, número, complemento"></div>
+      <div class="form-group" id="fg-end">
+        <label class="form-label">Endereço <span class="req">*</span></label>
+        <input class="form-input" id="inp-end" type="text" placeholder="Rua, número, complemento">
+        <div class="field-error" id="err-end">Informe o endereço completo.</div>
+      </div>
       <div class="form-row">
-        <div class="form-group"><label class="form-label">Cidade</label><input class="form-input" type="text" placeholder="São Paulo"></div>
-        <div class="form-group"><label class="form-label">Estado</label><input class="form-input" type="text" placeholder="SP"></div>
+        <div class="form-group" id="fg-city">
+          <label class="form-label">Cidade <span class="req">*</span></label>
+          <input class="form-input" id="inp-city" type="text" placeholder="São Paulo">
+        </div>
+        <div class="form-group" id="fg-uf">
+          <label class="form-label">Estado <span class="req">*</span></label>
+          <input class="form-input" id="inp-uf" type="text" placeholder="SP" maxlength="2" style="text-transform:uppercase">
+        </div>
       </div>
 
       <div class="checkout-actions">
         <button class="btn btn-ghost" onclick="show('product')">← Voltar</button>
-        <button class="btn btn-green" style="padding:14px 36px" onclick="show('co2')">Continuar →</button>
+        <button class="btn btn-green" id="co1-next" style="padding:14px 36px" onclick="submitCo1()">Continuar →</button>
       </div>
     </div>
 
@@ -1289,19 +1527,36 @@ a{text-decoration:none;color:inherit;}
       </div>
 
       <div class="form-row">
-        <div class="form-group form-span2"><label class="form-label">Número do cartão</label><input class="form-input" type="text" placeholder="0000 0000 0000 0000"></div>
+        <div class="form-group form-span2" id="fg-cardnum">
+          <label class="form-label">Número do cartão <span class="req">*</span></label>
+          <input class="form-input" id="inp-cardnum" type="text" placeholder="0000 0000 0000 0000" oninput="maskCard(this)" maxlength="19">
+          <div class="field-error" id="err-cardnum">Número de cartão inválido.</div>
+          <div class="field-success" id="ok-cardnum">Número válido ✓</div>
+        </div>
       </div>
       <div class="form-row">
-        <div class="form-group"><label class="form-label">Nome no cartão</label><input class="form-input" type="text" placeholder="Igual ao cartão"></div>
-        <div class="form-group"><label class="form-label">Validade</label><input class="form-input" type="text" placeholder="MM/AA"></div>
+        <div class="form-group" id="fg-cardname">
+          <label class="form-label">Nome no cartão <span class="req">*</span></label>
+          <input class="form-input" id="inp-cardname" type="text" placeholder="Igual ao cartão" oninput="updateCardDisplay(this,'card-bottom-name')" style="text-transform:uppercase">
+          <div class="field-error" id="err-cardname">Informe o nome impresso no cartão.</div>
+        </div>
+        <div class="form-group" id="fg-cardexp">
+          <label class="form-label">Validade <span class="req">*</span></label>
+          <input class="form-input" id="inp-cardexp" type="text" placeholder="MM/AA" oninput="maskExpiry(this)" maxlength="5">
+          <div class="field-error" id="err-cardexp">Data de validade inválida ou expirada.</div>
+        </div>
       </div>
       <div class="form-row">
-        <div class="form-group" style="max-width:150px"><label class="form-label">CVV</label><input class="form-input" type="text" placeholder="•••"></div>
+        <div class="form-group" id="fg-cvv" style="max-width:150px">
+          <label class="form-label">CVV <span class="req">*</span></label>
+          <input class="form-input" id="inp-cvv" type="text" placeholder="•••" oninput="maskCVV(this)" maxlength="4">
+          <div class="field-error" id="err-cvv">CVV inválido.</div>
+        </div>
       </div>
 
       <div class="checkout-actions">
         <button class="btn btn-ghost" onclick="show('co1')">← Voltar</button>
-        <button class="btn btn-green" style="padding:14px 36px" onclick="show('co3')">Continuar →</button>
+        <button class="btn btn-green" id="co2-next" style="padding:14px 36px" onclick="submitCo2()">Continuar →</button>
       </div>
     </div>
 
@@ -1346,9 +1601,19 @@ a{text-decoration:none;color:inherit;}
         <div class="prog-step"><div class="prog-circle">4</div><div class="prog-label">Confirmação</div></div>
       </div>
       <div class="checkout-title">Contrato digital</div>
-      <div class="checkout-sub">Leia o contrato e confirme sua assinatura para finalizar.</div>
+      <div class="checkout-sub">Leia o contrato completo e confirme sua assinatura para finalizar.</div>
 
-      <div class="contract-box">
+      <div class="contract-scroll-hint" id="contract-hint">
+        <span class="material-symbols-outlined">arrow_downward</span>
+        Role até o final do contrato para habilitar a assinatura
+      </div>
+      <div class="contract-read-badge" id="contract-read-badge">
+        <span class="material-symbols-outlined ms-icon-sm">check_circle</span>
+        Contrato lido — você pode assinar agora
+      </div>
+      <div class="scroll-progress-bar"><div class="scroll-progress-fill" id="contract-progress"></div></div>
+      <div class="contract-box-wrap">
+      <div class="contract-box" id="contract-scroll-box" onscroll="onContractScroll(this)">
         <h4>CONTRATO DE LOCAÇÃO E ASSINATURA DE EQUIPAMENTO ACER</h4>
         <p>Este contrato é firmado entre <strong>Acer Brasil</strong> ("Locadora") e o assinante identificado no cadastro ("Locatário"), nas condições abaixo descritas.</p>
         <h4>1. OBJETO</h4>
@@ -1364,18 +1629,19 @@ a{text-decoration:none;color:inherit;}
         <h4>6. RESCISÃO</h4>
         <p>A rescisão antecipada pelo Locatário implicará multa de 20% sobre o valor das parcelas restantes. A Locadora poderá rescindir o contrato em caso de inadimplência superior a 2 mensalidades.</p>
       </div>
+      </div><!-- end contract-box-wrap -->
 
-      <div class="checkbox-row">
-        <input type="checkbox" id="ck1">
-        <label for="ck1">Li e concordo com os termos do Contrato de Assinatura Acer, incluindo a reserva de limite de <span id="ct-label-total">R$ 5.976,00</span> no meu cartão de crédito e a cobrança mensal de <span id="ct-label-price">R$ 249,00</span>.</label>
+      <div class="checkbox-row" style="margin-top:16px">
+        <input type="checkbox" id="ck1" disabled>
+        <label for="ck1" id="ck1-label" style="opacity:.5">Li e concordo com os termos do Contrato de Assinatura Acer, incluindo a reserva de limite de <span id="ct-label-total">R$ 5.976,00</span> no meu cartão de crédito e a cobrança mensal de <span id="ct-label-price">R$ 249,00</span>.</label>
       </div>
       <div class="checkbox-row">
-        <input type="checkbox" id="ck2">
-        <label for="ck2">Concordo com a <a style="color:var(--green);text-decoration:underline;cursor:pointer">Política de Privacidade</a> e autorizo o tratamento dos meus dados para fins de aprovação e execução do contrato.</label>
+        <input type="checkbox" id="ck2" disabled>
+        <label for="ck2" id="ck2-label" style="opacity:.5">Concordo com a <a style="color:var(--green);text-decoration:underline;cursor:pointer">Política de Privacidade</a> e autorizo o tratamento dos meus dados para fins de aprovação e execução do contrato.</label>
       </div>
       <div class="checkout-actions">
         <button class="btn btn-ghost" onclick="show('co2')">← Voltar</button>
-        <button class="btn btn-green" style="padding:14px 36px" onclick="show('co4')">Assinar e finalizar <span class="material-symbols-outlined ms-icon-sm">check</span></button>
+        <button class="btn btn-green" id="co3-next" style="padding:14px 36px" onclick="submitCo3()" disabled>Assinar e finalizar <span class="material-symbols-outlined ms-icon-sm">check</span></button>
       </div>
     </div>
     <div class="checkout-sidebar">
@@ -1669,7 +1935,485 @@ a{text-decoration:none;color:inherit;}
   </footer>
 </div>
 
+
+<!-- ═══════════════ TOAST CONTAINER (global) ═══════════════ -->
+<div id="toast-container"></div>
+
+<!-- ═══════════════ SCREEN: PROCESSANDO PAGAMENTO ═══════════════ -->
+<div class="screen" id="screen-co-processing">
+  <nav class="nav">
+    <div class="nav-logo"><img src="https://images.acer.com/is/image/acer/logo-acer" alt="Acer" style="height:72px;width:auto;display:block"><div class="nav-logo-sep"></div><div class="nav-logo-sub">Processando</div></div>
+    <div class="nav-checkout"><span class="material-symbols-outlined ms-icon-sm">lock</span> <span class="nav-secure">Checkout 100% seguro · SSL</span></div>
+  </nav>
+  <div class="processing-page">
+    <div class="spinner-ring"></div>
+    <div class="processing-title">Processando seu pagamento…</div>
+    <div class="processing-sub">Aguarde enquanto verificamos os dados do cartão e reservamos o limite. Isso pode levar alguns segundos.</div>
+    <div class="processing-steps">
+      <div class="proc-step done">
+        <span class="material-symbols-outlined proc-step-icon">check_circle</span>
+        <span>Dados validados</span>
+      </div>
+      <div class="proc-step active">
+        <span class="material-symbols-outlined proc-step-icon">credit_card</span>
+        <span>Verificando cartão e limite disponível…</span>
+      </div>
+      <div class="proc-step">
+        <span class="material-symbols-outlined proc-step-icon">security</span>
+        <span>Análise antifraude</span>
+      </div>
+      <div class="proc-step">
+        <span class="material-symbols-outlined proc-step-icon">task_alt</span>
+        <span>Confirmação do contrato</span>
+      </div>
+    </div>
+    <p style="font-size:12px;color:var(--gray-400);margin-top:40px">Não feche ou atualize esta página durante o processamento.</p>
+    <button class="btn btn-ghost btn-sm" style="margin-top:16px" onclick="showToast('Processamento cancelado.','warn','cancel'); show('co2')">Cancelar</button>
+  </div>
+</div>
+
+<!-- ═══════════════ SCREEN: CARTÃO RECUSADO ═══════════════ -->
+<div class="screen" id="screen-co-declined">
+  <nav class="nav">
+    <div class="nav-logo"><img src="https://images.acer.com/is/image/acer/logo-acer" alt="Acer" style="height:72px;width:auto;display:block"><div class="nav-logo-sep"></div><div class="nav-logo-sub">Pagamento</div></div>
+  </nav>
+  <div class="error-page">
+    <div class="error-icon-wrap red">
+      <span class="material-symbols-outlined">credit_card_off</span>
+    </div>
+    <h1 class="error-title">Cartão recusado</h1>
+    <p class="error-sub">Não conseguimos processar seu cartão. Verifique os dados e tente novamente, ou use outro cartão.</p>
+    <div class="error-detail-box">
+      <p><strong>Motivos comuns:</strong></p>
+      <p>• Número ou data de validade incorretos</p>
+      <p>• CVV não corresponde ao cartão</p>
+      <p>• Cartão bloqueado pelo emissor</p>
+      <p>• Transação não autorizada pelo banco</p>
+    </div>
+    <div class="error-actions">
+      <button class="btn btn-green btn-lg" onclick="show('co2')">Tentar outro cartão</button>
+      <button class="btn btn-ghost btn-lg" onclick="show('concierge')">
+        <span class="material-symbols-outlined ms-icon">smart_toy</span>
+        Preciso de ajuda
+      </button>
+    </div>
+    <p style="font-size:12px;color:var(--gray-400);margin-top:28px">Nenhum valor foi cobrado. Entre em contato com seu banco se o problema persistir.</p>
+  </div>
+</div>
+
+<!-- ═══════════════ SCREEN: LIMITE INSUFICIENTE ═══════════════ -->
+<div class="screen" id="screen-co-insufficient">
+  <nav class="nav">
+    <div class="nav-logo"><img src="https://images.acer.com/is/image/acer/logo-acer" alt="Acer" style="height:72px;width:auto;display:block"><div class="nav-logo-sep"></div><div class="nav-logo-sub">Pagamento</div></div>
+  </nav>
+  <div class="error-page">
+    <div class="error-icon-wrap amber">
+      <span class="material-symbols-outlined">account_balance_wallet</span>
+    </div>
+    <h1 class="error-title">Limite insuficiente</h1>
+    <p class="error-sub">Seu cartão não possui limite disponível suficiente para reservar o valor total do contrato.</p>
+    <div class="error-detail-box">
+      <p><strong>Para este contrato é necessário:</strong></p>
+      <p>Limite disponível de <strong id="insuf-total">R$ 5.976,00</strong> no cartão.</p>
+      <p style="margin-top:10px"><strong>O que você pode fazer:</strong></p>
+      <p>• Escolher um plano de prazo maior (mensalidade menor)</p>
+      <p>• Escolher um produto com valor menor</p>
+      <p>• Usar outro cartão com limite suficiente</p>
+      <p>• Solicitar aumento de limite ao seu banco</p>
+    </div>
+    <div class="error-actions">
+      <button class="btn btn-green btn-lg" onclick="show('co2')">Usar outro cartão</button>
+      <button class="btn btn-outline-dark btn-lg" onclick="show('product')">Escolher outro plano</button>
+    </div>
+    <div style="margin-top:20px">
+      <button class="btn btn-ghost btn-sm" onclick="show('concierge')">
+        <span class="material-symbols-outlined ms-icon-sm">smart_toy</span>
+        Falar com AI Concierge
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ SCREEN: ANÁLISE DE CRÉDITO PENDENTE ═══════════════ -->
+<div class="screen" id="screen-co-credit-pending">
+  <nav class="nav">
+    <div class="nav-logo"><img src="https://images.acer.com/is/image/acer/logo-acer" alt="Acer" style="height:72px;width:auto;display:block"><div class="nav-logo-sep"></div><div class="nav-logo-sub">Análise de crédito</div></div>
+  </nav>
+  <div class="pending-page">
+    <div class="pending-badge">
+      <div class="dot"></div>
+      Em análise
+    </div>
+    <h1 class="error-title">Seu pedido está sendo analisado</h1>
+    <p class="error-sub">Nossa equipe está verificando seu cadastro e aprovando o contrato. Você receberá uma notificação por e-mail assim que a análise for concluída.</p>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="tl-left"><div class="tl-dot done"></div><div class="tl-line done"></div></div>
+        <div class="tl-content"><div class="tl-label">Dados enviados</div><div class="tl-desc">Cadastro e pagamento recebidos com sucesso.</div></div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-left"><div class="tl-dot active"></div><div class="tl-line"></div></div>
+        <div class="tl-content"><div class="tl-label">Análise de crédito em andamento</div><div class="tl-desc">Verificação de cadastro e aprovação do limite. Prazo: até 2 horas.</div></div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-left"><div class="tl-dot"></div><div class="tl-line"></div></div>
+        <div class="tl-content"><div class="tl-label">Aprovação e contrato</div><div class="tl-desc">Contrato assinado e pedido confirmado.</div></div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-left"><div class="tl-dot"></div></div>
+        <div class="tl-content"><div class="tl-label">Envio do produto</div><div class="tl-desc">Separação e despacho em até 5 dias úteis.</div></div>
+      </div>
+    </div>
+
+    <div style="margin-top:36px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
+      <button class="btn btn-green btn-lg" onclick="showToast('E-mail de confirmação enviado!','success','email'); ">
+        <span class="material-symbols-outlined ms-icon-sm">email</span>
+        Reenviar e-mail
+      </button>
+      <button class="btn btn-ghost btn-lg" onclick="show('home')">Voltar ao início</button>
+    </div>
+    <p style="font-size:12px;color:var(--gray-400);margin-top:28px">Dúvidas? Fale com nosso suporte: <strong>0800 722 2237</strong></p>
+  </div>
+</div>
+
+<!-- ═══════════════ SCREEN: CRÉDITO REPROVADO ═══════════════ -->
+<div class="screen" id="screen-co-credit-rejected">
+  <nav class="nav">
+    <div class="nav-logo"><img src="https://images.acer.com/is/image/acer/logo-acer" alt="Acer" style="height:72px;width:auto;display:block"><div class="nav-logo-sep"></div><div class="nav-logo-sub">Análise de crédito</div></div>
+  </nav>
+  <div class="error-page">
+    <div class="error-icon-wrap red">
+      <span class="material-symbols-outlined">person_cancel</span>
+    </div>
+    <h1 class="error-title">Não foi possível aprovar</h1>
+    <p class="error-sub">Nossa análise de crédito não aprovou o cadastro neste momento. Você pode tentar novamente em 30 dias ou entrar em contato com nossa equipe.</p>
+    <div class="error-detail-box">
+      <p><strong>O que acontece agora?</strong></p>
+      <p>• Nenhuma cobrança foi realizada</p>
+      <p>• Seus dados foram excluídos com segurança</p>
+      <p>• Você pode tentar novamente após 30 dias</p>
+      <p>• Nossa equipe pode ajudar com alternativas</p>
+    </div>
+    <div class="error-actions">
+      <button class="btn btn-green btn-lg" onclick="show('concierge')">
+        <span class="material-symbols-outlined ms-icon-sm">smart_toy</span>
+        Falar com AI Concierge
+      </button>
+      <button class="btn btn-ghost btn-lg" onclick="show('home')">Voltar ao início</button>
+    </div>
+    <p style="font-size:12px;color:var(--gray-400);margin-top:28px">Precisa de ajuda? Ligue: <strong>0800 722 2237</strong></p>
+  </div>
+</div>
+
+
 <script>
+
+// ══════════════════════════════════════════
+// TOAST SYSTEM
+// ══════════════════════════════════════════
+function showToast(message, type = 'success', icon = null) {
+  const icons = { success: 'check_circle', error: 'error', info: 'info', warn: 'warning' };
+  const ic = icon || icons[type] || 'info';
+  const tc = document.getElementById('toast-container');
+  const t = document.createElement('div');
+  t.className = 'toast toast-' + type;
+  t.innerHTML = '<span class="material-symbols-outlined toast-icon">' + ic + '</span><span>' + message + '</span>';
+  tc.appendChild(t);
+  requestAnimationFrame(() => { requestAnimationFrame(() => { t.classList.add('show'); }); });
+  setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 300); }, 3500);
+}
+
+// ══════════════════════════════════════════
+// INPUT MASKS
+// ══════════════════════════════════════════
+function maskCPF(el) {
+  let v = el.value.replace(/\D/g, '').slice(0, 11);
+  if (v.length > 9) v = v.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, '$1.$2.$3-$4');
+  else if (v.length > 6) v = v.replace(/(\d{3})(\d{3})(\d{1,3})/, '$1.$2.$3');
+  else if (v.length > 3) v = v.replace(/(\d{3})(\d{1,3})/, '$1.$2');
+  el.value = v;
+  validateCPF(el);
+}
+function validateCPF(el) {
+  const raw = el.value.replace(/\D/g, '');
+  const fg = document.getElementById('fg-cpf');
+  if (!fg) return;
+  if (raw.length < 11) { setFieldState(fg, ''); return; }
+  // Luhn-like CPF validation
+  let sum = 0, rem;
+  if (/^(\d)\1{10}$/.test(raw)) { setFieldState(fg, 'error', 'CPF inválido.'); return; }
+  for (let i = 1; i <= 9; i++) sum += parseInt(raw[i-1]) * (11 - i);
+  rem = (sum * 10) % 11; if (rem === 10 || rem === 11) rem = 0;
+  if (rem !== parseInt(raw[9])) { setFieldState(fg, 'error', 'CPF inválido.'); return; }
+  sum = 0;
+  for (let i = 1; i <= 10; i++) sum += parseInt(raw[i-1]) * (12 - i);
+  rem = (sum * 10) % 11; if (rem === 10 || rem === 11) rem = 0;
+  if (rem !== parseInt(raw[10])) { setFieldState(fg, 'error', 'CPF inválido.'); return; }
+  setFieldState(fg, 'success', '', 'CPF válido ✓');
+}
+function maskPhone(el) {
+  let v = el.value.replace(/\D/g, '').slice(0, 11);
+  if (v.length > 7) v = v.replace(/(\d{2})(\d{1})(\d{4})(\d{1,4})/, '($1) $2 $3-$4');
+  else if (v.length > 6) v = v.replace(/(\d{2})(\d{1})(\d{1,4})/, '($1) $2 $3');
+  else if (v.length > 2) v = v.replace(/(\d{2})(\d{1,5})/, '($1) $2');
+  el.value = v;
+}
+function maskDate(el) {
+  let v = el.value.replace(/\D/g, '').slice(0, 8);
+  if (v.length > 4) v = v.replace(/(\d{2})(\d{2})(\d{1,4})/, '$1/$2/$3');
+  else if (v.length > 2) v = v.replace(/(\d{2})(\d{1,2})/, '$1/$2');
+  el.value = v;
+}
+function maskCEP(el) {
+  let v = el.value.replace(/\D/g, '').slice(0, 8);
+  if (v.length > 5) v = v.replace(/(\d{5})(\d{1,3})/, '$1-$2');
+  el.value = v;
+}
+function maskCard(el) {
+  let v = el.value.replace(/\D/g, '').slice(0, 16);
+  v = v.replace(/(\d{4})(?=\d)/g, '$1 ');
+  el.value = v;
+  // Update card visual
+  const disp = document.querySelector('.card-num');
+  if (disp) {
+    const raw = el.value.replace(/\s/g, '');
+    const padded = raw.padEnd(16, '•');
+    disp.textContent = padded.replace(/(....)/g, '$1 ').trim();
+  }
+  // Validate
+  const fg = document.getElementById('fg-cardnum');
+  if (!fg) return;
+  const len = el.value.replace(/\s/g, '').length;
+  if (len === 16) setFieldState(fg, 'success', '', 'Número válido ✓');
+  else if (len > 0) setFieldState(fg, '');
+}
+function maskExpiry(el) {
+  let v = el.value.replace(/\D/g, '').slice(0, 4);
+  if (v.length > 2) v = v.slice(0, 2) + '/' + v.slice(2);
+  el.value = v;
+  // Update card visual
+  const disp = document.querySelector('.card-bottom-val:nth-of-type(2)');
+}
+function maskCVV(el) {
+  el.value = el.value.replace(/\D/g, '').slice(0, 4);
+}
+function updateCardDisplay(el, cls) {
+  // update card holder name visual
+  const disp = document.querySelector('.card-bottom-val');
+  if (disp) disp.textContent = el.value.toUpperCase() || 'SEU NOME';
+}
+
+// ══════════════════════════════════════════
+// FIELD STATE HELPER
+// ══════════════════════════════════════════
+function setFieldState(fg, state, errMsg, okMsg) {
+  fg.classList.remove('has-error', 'has-success');
+  const errEl = fg.querySelector('.field-error');
+  const okEl  = fg.querySelector('.field-success');
+  if (state === 'error') {
+    fg.classList.add('has-error');
+    if (errEl && errMsg) errEl.textContent = errMsg;
+  } else if (state === 'success') {
+    fg.classList.add('has-success');
+    if (okEl && okMsg) okEl.textContent = okMsg;
+  }
+}
+
+// ══════════════════════════════════════════
+// FORM VALIDATORS — CO1
+// ══════════════════════════════════════════
+function validateNome(el) {
+  const fg = document.getElementById('fg-nome'); if (!fg) return;
+  const parts = el.value.trim().split(/\s+/);
+  setFieldState(fg, parts.length >= 2 && el.value.trim().length > 3 ? 'success' : '');
+}
+function validateEmail(el) {
+  const fg = document.getElementById('fg-email'); if (!fg) return;
+  const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value);
+  setFieldState(fg, ok ? 'success' : (el.value.length > 0 ? 'error' : ''));
+}
+function autofillAddress() {
+  const cep = document.getElementById('inp-cep');
+  if (!cep || cep.value.replace(/\D/g,'').length < 8) {
+    showToast('Informe um CEP válido antes de buscar.', 'warn', 'warning');
+    return;
+  }
+  // Simulate autofill
+  const endEl = document.getElementById('inp-end');
+  const cityEl = document.getElementById('inp-city');
+  const ufEl   = document.getElementById('inp-uf');
+  if (endEl) endEl.value = 'Av. Paulista, 1374';
+  if (cityEl) cityEl.value = 'São Paulo';
+  if (ufEl)   ufEl.value   = 'SP';
+  showToast('Endereço preenchido automaticamente.', 'success', 'location_on');
+}
+function co1IsValid() {
+  const nome = document.getElementById('inp-nome');
+  const cpf  = document.getElementById('inp-cpf');
+  const email= document.getElementById('inp-email');
+  const tel  = document.getElementById('inp-tel');
+  const nasc = document.getElementById('inp-nasc');
+  const cep  = document.getElementById('inp-cep');
+  const end  = document.getElementById('inp-end');
+  if (!nome || !cpf) return true; // fallback if IDs missing
+  const ok = nome.value.trim().split(/\s+/).length >= 2 &&
+    cpf.value.replace(/\D/g,'').length === 11 &&
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value) &&
+    tel.value.replace(/\D/g,'').length >= 10 &&
+    nasc.value.replace(/\D/g,'').length === 8 &&
+    cep.value.replace(/\D/g,'').length === 8 &&
+    end.value.trim().length > 5;
+  return ok;
+}
+function submitCo1() {
+  const fields = [
+    { id:'fg-nome', check: () => { const v=document.getElementById('inp-nome'); return v && v.value.trim().split(/\s+/).length >= 2; }, msg:'Informe seu nome completo.' },
+    { id:'fg-cpf',  check: () => { const v=document.getElementById('inp-cpf'); return v && v.value.replace(/\D/g,'').length === 11; }, msg:'CPF incompleto.' },
+    { id:'fg-email',check: () => { const v=document.getElementById('inp-email'); return v && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.value); }, msg:'E-mail inválido.' },
+    { id:'fg-tel',  check: () => { const v=document.getElementById('inp-tel'); return v && v.value.replace(/\D/g,'').length >= 10; }, msg:'Celular inválido.' },
+    { id:'fg-nasc', check: () => { const v=document.getElementById('inp-nasc'); return v && v.value.replace(/\D/g,'').length === 8; }, msg:'Data de nascimento inválida.' },
+    { id:'fg-cep',  check: () => { const v=document.getElementById('inp-cep'); return v && v.value.replace(/\D/g,'').length === 8; }, msg:'CEP inválido.' },
+    { id:'fg-end',  check: () => { const v=document.getElementById('inp-end'); return v && v.value.trim().length > 5; }, msg:'Informe o endereço.' },
+  ];
+  let valid = true;
+  fields.forEach(f => {
+    const fg = document.getElementById(f.id);
+    if (!fg) return;
+    if (!f.check()) { setFieldState(fg, 'error', f.msg); valid = false; }
+    else { setFieldState(fg, 'success'); }
+  });
+  if (!valid) {
+    showToast('Preencha todos os campos obrigatórios.', 'error', 'error');
+    document.querySelector('#fg-nome .form-input, .has-error .form-input')?.scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+  showToast('Cadastro salvo!', 'success', 'check_circle');
+  show('co2');
+}
+
+// ══════════════════════════════════════════
+// FORM VALIDATORS — CO2
+// ══════════════════════════════════════════
+function submitCo2() {
+  const cardnum = document.getElementById('inp-cardnum');
+  const cardname= document.getElementById('inp-cardname');
+  const exp     = document.getElementById('inp-cardexp');
+  const cvv     = document.getElementById('inp-cvv');
+
+  const fields = [
+    { id:'fg-cardnum',  check: () => cardnum && cardnum.value.replace(/\s/g,'').length === 16, msg:'Número de cartão inválido (16 dígitos).' },
+    { id:'fg-cardname', check: () => cardname && cardname.value.trim().split(/\s+/).length >= 2, msg:'Informe o nome completo impresso no cartão.' },
+    { id:'fg-cardexp',  check: () => { if (!exp) return false; const v = exp.value; if (!/^\d{2}\/\d{2}$/.test(v)) return false; const [m,y] = v.split('/'); const now = new Date(); return parseInt(m) >= 1 && parseInt(m) <= 12 && (parseInt('20'+y) > now.getFullYear() || (parseInt('20'+y) === now.getFullYear() && parseInt(m) >= now.getMonth()+1)); }, msg:'Data de validade inválida ou expirada.' },
+    { id:'fg-cvv',      check: () => cvv && cvv.value.length >= 3, msg:'CVV inválido.' },
+  ];
+  let valid = true;
+  fields.forEach(f => {
+    const fg = document.getElementById(f.id); if (!fg) return;
+    if (!f.check()) { setFieldState(fg, 'error', f.msg); valid = false; }
+    else setFieldState(fg, 'success');
+  });
+  if (!valid) { showToast('Verifique os dados do cartão.', 'error', 'credit_card'); return; }
+
+  // Show processing screen, then simulate result
+  show('co-processing');
+  // After 3s, go to co3 (success path); prototype also allows navigation to error states via switcher
+  setTimeout(() => {
+    showToast('Pagamento aprovado! ✓', 'success', 'check_circle');
+    show('co3');
+  }, 3000);
+}
+
+// ══════════════════════════════════════════
+// CONTRACT SCROLL LOCK
+// ══════════════════════════════════════════
+function onContractScroll(el) {
+  const pct = el.scrollTop / (el.scrollHeight - el.clientHeight);
+  const fill = document.getElementById('contract-progress');
+  if (fill) fill.style.width = Math.min(100, Math.round(pct * 100)) + '%';
+  if (pct >= 0.95) unlockContract();
+}
+function unlockContract() {
+  const hint = document.getElementById('contract-hint');
+  const badge = document.getElementById('contract-read-badge');
+  const ck1 = document.getElementById('ck1');
+  const ck2 = document.getElementById('ck2');
+  const ck1l = document.getElementById('ck1-label');
+  const ck2l = document.getElementById('ck2-label');
+  const btn = document.getElementById('co3-next');
+  if (hint) hint.style.display = 'none';
+  if (badge) badge.classList.add('show');
+  if (ck1) { ck1.disabled = false; ck1.addEventListener('change', checkCo3Ready); }
+  if (ck2) { ck2.disabled = false; ck2.addEventListener('change', checkCo3Ready); }
+  if (ck1l) ck1l.style.opacity = '1';
+  if (ck2l) ck2l.style.opacity = '1';
+  showToast('Contrato lido. Agora você pode assinar.', 'info', 'task_alt');
+}
+function checkCo3Ready() {
+  const ck1 = document.getElementById('ck1');
+  const ck2 = document.getElementById('ck2');
+  const btn = document.getElementById('co3-next');
+  if (btn) btn.disabled = !(ck1 && ck1.checked && ck2 && ck2.checked);
+}
+function resetContractLock() {
+  const hint = document.getElementById('contract-hint');
+  const badge = document.getElementById('contract-read-badge');
+  const fill = document.getElementById('contract-progress');
+  const ck1 = document.getElementById('ck1');
+  const ck2 = document.getElementById('ck2');
+  const btn = document.getElementById('co3-next');
+  const box = document.getElementById('contract-scroll-box');
+  if (hint)  hint.style.display = '';
+  if (badge) badge.classList.remove('show');
+  if (fill)  fill.style.width = '0%';
+  if (ck1)   { ck1.disabled = true; ck1.checked = false; }
+  if (ck2)   { ck2.disabled = true; ck2.checked = false; }
+  if (btn)   btn.disabled = true;
+  if (box)   box.scrollTop = 0;
+  const ck1l = document.getElementById('ck1-label');
+  const ck2l = document.getElementById('ck2-label');
+  if (ck1l) ck1l.style.opacity = '0.5';
+  if (ck2l) ck2l.style.opacity = '0.5';
+}
+function submitCo3() {
+  const ck1 = document.getElementById('ck1');
+  const ck2 = document.getElementById('ck2');
+  if (!ck1 || !ck1.checked || !ck2 || !ck2.checked) {
+    showToast('Aceite os termos para continuar.', 'warn', 'warning');
+    return;
+  }
+  show('co4');
+  showToast('Contrato assinado! Pedido confirmado.', 'success', 'task_alt');
+}
+
+// ══════════════════════════════════════════
+// CATALOG — EMPTY STATE + FILTER
+// ══════════════════════════════════════════
+function clearFilters() {
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  const first = document.querySelector('.chip');
+  if (first) first.classList.add('active');
+  const empty = document.getElementById('cat-empty');
+  if (empty) empty.classList.remove('show');
+  showToast('Filtros removidos.', 'info', 'filter_alt_off');
+}
+function toggleChipWithEmpty(el) {
+  toggleChip(el);
+  // Simulate empty state for "Gamer" chip
+  const empty = document.getElementById('cat-empty');
+  if (!empty) return;
+  const label = el.textContent.trim().toLowerCase();
+  if (label.includes('gamer') || label.includes('4k')) {
+    // Show empty state (prototype demo)
+    document.querySelectorAll('#cat-grid .product-card').forEach(c => c.style.display = 'none');
+    empty.classList.add('show');
+    showToast('Nenhum produto encontrado para este filtro.', 'warn', 'search_off');
+  } else {
+    document.querySelectorAll('#cat-grid .product-card').forEach(c => c.style.display = '');
+    empty.classList.remove('show');
+  }
+}
+
 // ── Plan selector ──
 const plans = {
   18: { price: 299, total: 5382, label: 'dezoito' },
@@ -1719,10 +2463,14 @@ function show(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.sw-btn').forEach(b => b.classList.remove('active'));
   const screenMap = {home:0,catalog:1,product:2,co1:3,co2:4,co3:5,co4:6,concierge:7,b2b:8};
-  document.getElementById('screen-'+id).classList.add('active');
+  const el = document.getElementById('screen-'+id);
+  if (!el) { console.warn('Screen not found:', id); return; }
+  el.classList.add('active');
   const btns = document.querySelectorAll('.sw-btn');
   if (screenMap[id] !== undefined) btns[screenMap[id]].classList.add('active');
   window.scrollTo(0,0);
+  // Reset contract lock each time co3 is entered
+  if (id === 'co3') setTimeout(resetContractLock, 0);
 }
 function toggleChip(el) {
   document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
